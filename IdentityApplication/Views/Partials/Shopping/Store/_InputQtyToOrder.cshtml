@@ -1,0 +1,65 @@
+﻿@model gellmvc.Domain.Entities.ProductLine
+
+<div class="col-xs-12 col-sm-5 parental-div parentalDiv-@Model.Product.Id">
+
+  <div class="row">
+    <!-- Input: Qty to order -->
+    <div class="col-xs-8">
+
+      <div class="row">
+        <label for="qtyToOrder-productId-@Model.Product.Id">
+          Qty to Order
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="input-group" style="margin-right:5px;">
+
+          @Html.TextBox(
+              "qtyToOrder-input",
+              Model.QtyInCart,
+              new
+              {
+                  @class = "form-control qtyToOrder-input",
+                  @id = "qtyToOrder-productId-" + @Model.Product.Id.ToString()
+              }
+          )
+
+          <span class="input-group-btn">
+            <button class="btn btn-default qty-btn qty-btn-minus" id="qty-btn-minus-@Model.Product.Id" name="qty-btn-minus" type="button">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+            <button class="btn btn-default qty-btn qty-btn-plus" id="qty-btn-plus-@Model.Product.Id" name="qty-btn-plus" type="button">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+
+        </div>
+      </div>
+
+      @* MAX-STOCK MESSAGE appears here, thru javascript. *@
+      <div class="col-xs-12 maxStockMsg">
+        <div class="row">
+          <small>
+          </small>
+        </div>
+      </div>
+
+    </div>
+
+    @* IN-CART ICON *@
+    @{
+      var Folder = gellmvc.Helpers.ApplicationHelper.SiteImagesFolderPath();
+      var icon_style = "display: block;";
+      if (Model.QtyInCart < 1)
+      {
+        icon_style = "display: none;";
+      }
+    }
+    <div class="col-xs-4 inCartIcon" style="@icon_style">
+      <div class="row">
+        <img alt="(Added to cart)" class="img-rounded centered-block-img" src="@Folder/inCart60x60.png" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+﻿@model gellmvc.Domain.Entities.ProductLine
+
+@{
+        /**/
+
+        var vis = (Model.QtyInCart <= 0) ? "hidden" : "visible";
+}
+
+<button name="remove-from-cart" type="button" class="btn btn-default remove-from-cart" id="remove-from-cart-@Model.Product.Id" style="visibility:@vis;">
+  <span class="glyphicon glyphicon-remove"></span>
+</button>
+
