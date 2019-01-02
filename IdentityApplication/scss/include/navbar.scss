@@ -1,0 +1,38 @@
+/*--------------------------------------------------------------------------------------------
+Content of navbar.scss
+*/
+
+.mg-site-title {
+  display:inline-block;
+  max-width: 260px;
+  min-width: 221px;
+  padding: 15px;
+  a {
+    display: inline-block;
+    font-size: 20px;
+    color: #666666;
+  }
+  a:hover {
+    color: black;
+    text-decoration: none;
+  }
+  .loggedInAs {
+    font-size: 0.8em;
+    color: grey;
+    .dark-text{
+      color: #3F3B4F;
+    }
+    div {
+      display: inline-block;
+    }
+  }
+}
+
+button.navbar-toggle{
+  margin: 10px;
+}
+
+ul.nav.navbar-nav li{
+  // border: 1px solid pink;
+  // width: 146px;
+}

@@ -1,0 +1,125 @@
+/*--------------------------------------------------------------------------------------------
+Content of body.css
+*/
+$font-folder: "/Content/fonts/bootstrap/"; /* override the bootstrap fonts path */
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('#{$font-folder}/glyphicons-halflings-regular.eot');
+  src: url('#{$font-folder}/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), 
+       url('#{$font-folder}/glyphicons-halflings-regular.woff') format('woff'), 
+       url('#{$font-folder}/glyphicons-halflings-regular.ttf') format('truetype'), 
+       url('#{$font-folder}/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+body {
+  min-width: 130px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+  margin-right: 0;
+}
+
+.top-level-container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+  /* Disabled because it was separating our nice components on the store page.*/
+  /*max-width: 280px;*/
+}
+
+.go-next-btn {
+    font-size: 2.0em;
+}
+
+div.product-search-group {
+  max-width: 245px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product-search-control {
+  height: 38px;
+}
+
+input.product-search-control {
+  text-align: center;
+}
+
+.short-hr-margin{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.well.transparentBackground {
+  background-color: transparent;
+  margin-bottom: 3px;
+  border-top-style: none;
+
+  @media screen and (min-width: 768px) {
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+  }
+}
+
+.current {
+  background-color: rgb(206, 206, 206);
+}
+
+nav.pagination a.btn {
+  font-size: 10px;
+}
+
+.feint{
+  color: rgba(39, 39, 39, 0.68);
+}
+
+.very-feint{
+  color: rgb(200, 200, 200);
+}
+
+div.breakpoint-text .tiny-font{
+  font-size: 14px;
+
+  @media screen and (max-width: 430px) {
+    font-size: 11px;
+  }
+
+  @media screen and (max-width: 345px) {
+    font-size: 9px;
+  }
+}
+
+.well.customerwell{
+  background-color: #97CC97; //green
+}
+
+.well.staffwell{
+  background-color: rgb(243, 133, 59); //bright orange
+}
+
+.well.adminwell{
+  background-color: #C54B48; //red
+}

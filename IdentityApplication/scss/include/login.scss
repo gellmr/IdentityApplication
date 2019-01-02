@@ -1,0 +1,20 @@
+/*--------------------------------------------------------------------------------------------
+Content of login.scss
+*/
+
+form#login-form {
+
+  #login-well
+  {
+    height: 263px;
+  }
+
+  button#loginPageSubmit {
+    margin-top:4px;
+  }
+
+  .forgot-password-link{
+    display: block;
+    margin-top: 5px;
+  }
+}

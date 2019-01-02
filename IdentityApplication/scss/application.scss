@@ -1,0 +1,26 @@
+﻿$icon-font-path: "/Content/fonts/bootstrap/"; // override the bootstrap fonts path.
+/* --------------------------------------------------------------------------------------------
+Warning - Content/application.css is a compiled .scss file
+-------------------------------------------------------------------------------------------- */
+
+@import "bootstrap";
+
+/* --------------------------------------------------------------------------------------------
+Content of gellmvc/scss/application.scss
+
+My .scss files from "gellmvc/scss/include" are included below.
+Grunt is used to compile the bootstrap .scss files (located in bower_components) together with my .scss
+The resulting compiled .css file (application.css) is placed in gellmvc/Content/application.css */
+
+@import "body";
+@import "auth";
+@import "cart";
+@import "checkout";
+@import "home";
+@import "login";
+@import "manage_customers";
+@import "navbar";
+@import "order";
+@import "store";
+@import "store_and_cart";
+@import "users";

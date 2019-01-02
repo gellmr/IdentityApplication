@@ -1,0 +1,112 @@
+/*--------------------------------------------------------------------------------------------
+Content of store_and_cart.scss
+*/
+
+.greyText {
+  color: grey;
+}
+
+input.qtyToOrder-input {
+  height: 34px;
+}
+
+button.qty-btn {
+  height: 34px;
+}
+
+span.glyphicon.glyphicon-minus {
+  font-size: 0.7em;
+  color: #555555;
+}
+span.glyphicon.glyphicon-plus {
+  font-size: 0.7em;
+  color: #555555;
+}
+
+span.glyphicon.glyphicon-remove {
+  font-size: 1.5em;
+  color: rgb(213, 213, 213);
+}
+span.glyphicon.glyphicon-remove:hover {
+  color: #7A7A7A;
+}
+button.remove-from-cart {
+  border: none;
+  background-color: transparent;
+  padding-right: 0px;
+}
+button.remove-from-cart:hover {
+  background-color: transparent;
+}
+
+.centeredProducts {
+  /* Products are displayed in a single centered column, for small screens. */
+  @media screen and (max-width: 767px) {
+    min-width: 193px;
+    max-width: 267px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+div.parental-div {
+  margin-top: 30px;
+}
+
+.well.transparentBackground {
+  background-color: transparent;
+  @media screen and (min-width: 768px) {
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+  }
+}
+
+img.centered-block-img {
+  display: block; /* Override the default inline-block of img tag. This will allow us to set the margins to auto... */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img.centered-block-img.with-vert-margins {
+  @media screen and (max-width: 767px) {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+hr.narrow-hr {
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+img.centered-block-img {
+  // border: 1px dashed;
+}
+
+
+
+
+/* DEBUG ONLY 
+div.dbug-always-visible {
+  border: 2px solid orange;
+}*/
+
+/* DEBUG ONLY 
+.visible-xs {
+  border: 2px solid pink;
+}*/
+
+/* DEBUG ONLY 
+.hidden-xs {
+  border: 2px solid red;
+}*/
+
+/* DEBUG ONLY 
+div.parental-div {
+  border: 2px solid cyan;
+}*/
+
+/* DEBUG ONLY 
+div.inCartIcon {
+  border: 2px solid yellow;
+}*/

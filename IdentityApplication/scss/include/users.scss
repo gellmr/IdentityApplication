@@ -1,0 +1,46 @@
+/*--------------------------------------------------------------------------------------------
+Content of users.scss
+*/
+
+.address-delete{
+  display:inline-block;
+  display:block;
+  vertical-align: middle;
+  /*padding-left:20px;*/
+  float:right;
+}
+
+.address-cboxes{
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.7em;
+}
+
+.manage-users-page {
+  div.row{
+    margin-bottom: 5px;
+  }
+
+  .datahead{
+    display: inline-block;
+    width: 80px;
+  }
+
+  .datarow{
+    display: inline-block;
+  }
+}
+
+.user-delete{
+  margin-top: -15px;
+  margin-right: -15px;
+  border: 1px solid rgba(128, 128, 128, 0.11);
+  border-radius: 4px;
+  span.glyphicon-remove{
+    padding: 15px;
+  }  
+}
+
+.showme{
+  border: 1px solid rgba(255, 12, 12, 0.11);;
+}
