@@ -1,0 +1,82 @@
+﻿@model gellmvc.Models.CartIndexViewModel
+@{
+  var cartEmpty = (Model.Cart.Lines.Count() == 0);
+}
+
+@using (Html.BeginForm("Submit", "Checkout"))
+{
+  <input type="hidden" id="page-location" name="page-location" value="checkout"> @* Used by some logic in store_and_cart.js *@
+
+  <div class="row">
+    <div class="col-xs-12">
+
+      <div class="alert alert-warning" id="serverError" style="display:none;">
+        There was a server error.
+      </div>
+
+      @* flash message goes here *@
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="text-center">
+            <h3 class="content-heading">
+              <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
+              @if (cartEmpty)
+              {
+                <span>Cannot Checkout!</span>
+              }
+              else
+              {
+                <span>Checkout</span>
+              }
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      @if (cartEmpty)
+      {
+        <div class="row">
+          <hr />
+          <h4 class="text-center">...Your cart is empty.</h4>
+          @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+          <hr />
+        </div>
+      }
+      else
+      {
+        <div class="row">
+          <hr />
+          @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+          @Html.Partial("~/Views/Partials/Shopping/_BackToCart.cshtml")
+          <a href="/Checkout/Index" class="btn btn-default content-header-btn" disabled="disabled">Reviewing Your Order...</a>
+          <hr />
+        </div>
+
+        <div style="height: 50px;"></div>
+
+        @Html.Partial("~/Views/Partials/Shopping/Checkout/_CheckoutSummary.cshtml", Model)
+        
+        @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressSelection.cshtml")
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="text-center">
+              @Html.ActionLink("Place Order",
+                "Create",    // method
+                "Order",     // controller
+                null,        // route arguments
+                new {
+                  @class = "btn btn-default go-next-btn",
+                  @type = "submit"
+                }
+              )
+            </div>
+          </div>
+        </div>
+
+      }
+    </div>
+  </div>
+}
+@* End of Html form *@

@@ -1,0 +1,25 @@
+﻿@model gellmvc.Models.CartIndexViewModel
+
+@if (Model.User != null && Model.Addresses.Where( a => a.Deleted == false).Count() > 0 )
+{
+  <div class="row">
+    <div class="col-xs-12 well">
+      <h3>Shipping / Billing details:</h3>
+
+      @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressHeader.cshtml")
+
+      @foreach (gellmvc.Models.UserAddress address in Model.Addresses){
+        if (address.Deleted == false)
+        {
+          @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressRow.cshtml", new gellmvc.Models.AddressRowViewModel{
+            User = Model.User,
+            UserAddress = address,
+            IsShipping = Model.ShippingAddress == address.Id,
+            IsBilling = Model.BillingAddress == address.Id
+          })
+        }
+      }
+
+    </div>
+  </div>
+}

@@ -1,0 +1,39 @@
+﻿@model gellmvc.Models.CartIndexViewModel
+
+<div class="row checkout-table">
+  <div class="col-xs-12">
+
+    <div class="row tiny-font">
+      <div class="hidden-xs col-sm-1"></div>
+      <div class="col-xs-6 col-sm-5"><b>Product</b></div>
+      <div class="col-xs-2"><b>Unit Price</b></div>
+      <div class="col-xs-2"><b>Order Qty</b></div>
+      <div class="col-xs-2"><b>Subtotal</b></div>
+    </div>
+    <hr />
+
+    @foreach (var line in Model.ProductLines)
+    {
+      @Html.Partial("~/Views/Partials/Shopping/Checkout/_CheckoutSummaryRow.cshtml", line)
+      <hr />
+    }
+    <br />
+
+    <div class="row tiny-font">
+      <div class="col-xs-6">&nbsp</div>
+      <div class="col-xs-2">&nbsp</div>
+      <div class="col-xs-2"><b>Total Items</b></div>
+      <div class="col-xs-2"><b>Grand Total</b></div>
+    </div>
+    <hr />
+
+    <div class="row tiny-font">
+      <div class="col-xs-6">&nbsp</div>
+      <div class="col-xs-2">&nbsp</div>
+      <div class="col-xs-2"> @Model.Cart.TotalItemsInCart() </div>
+      <div class="col-xs-2"> @Model.Cart.GrandTotal() </div>
+    </div>
+    <br />
+
+  </div>
+</div>

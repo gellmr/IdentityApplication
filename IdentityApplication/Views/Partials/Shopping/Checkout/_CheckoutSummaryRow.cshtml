@@ -1,0 +1,17 @@
+﻿@model gellmvc.Domain.Entities.ProductLine
+
+<div class="row tiny-font">
+
+  <!-- Small img -->
+  <div class="hidden-xs col-sm-1">
+    @{
+      string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
+    }
+    <img src="@imgFolder/@Model.Product.ImageUrl" alt="@imgFolder/@Model.Product.ImageUrl" class="checkout-product-img" />
+  </div>
+
+  <div class="col-xs-6 col-sm-5">@Model.Product.Name</div>
+  <div class="col-xs-2">@Model.Product.UnitPrice</div>
+  <div class="col-xs-2">@Model.QtyInCart</div>
+  <div class="col-xs-2">@Model.Subtotal</div>
+</div>

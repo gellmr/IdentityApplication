@@ -236,6 +236,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartBaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
@@ -327,6 +328,13 @@
     <Content Include="Views\Partials\Shopping\Cart\_CartLine.cshtml" />
     <Content Include="Views\Partials\Shopping\Cart\_InputQtyToOrder.cshtml" />
     <Content Include="Views\Partials\Shopping\_SummaryRow.cshtml" />
+    <Content Include="Views\Checkout\Index.cshtml" />
+    <Content Include="Views\Partials\Shopping\_BackToCart.cshtml" />
+    <Content Include="Views\Partials\Shopping\Checkout\_AddressHeader.cshtml" />
+    <Content Include="Views\Partials\Shopping\Checkout\_AddressRow.cshtml" />
+    <Content Include="Views\Partials\Shopping\Checkout\_AddressSelection.cshtml" />
+    <Content Include="Views\Partials\Shopping\Checkout\_CheckoutSummary.cshtml" />
+    <Content Include="Views\Partials\Shopping\Checkout\_CheckoutSummaryRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,34 @@
+﻿@model gellmvc.Models.AddressRowViewModel
+
+<div class="row address-row">
+
+  <div class="col-xs-12 col-sm-6">
+    <!-- @Model.UserAddress.Id -->
+    @Model.UserAddress.Value
+  </div>
+
+  <div class="col-xs-12 col-sm-3">
+    <label class="address-radio">
+      @Html.RadioButton(
+        "shippingRadioOptions", // name
+        Model.UserAddress.Id,   // value
+        Model.IsShipping,       // is checked
+        new { }                 // html attributes, eg html class
+      )
+      <span class="visible-xs">Ship to this address</span>
+    </label>
+  </div>
+
+  <div class="col-xs-12 col-sm-3">
+    <label class="address-radio">
+      @Html.RadioButton(
+        "billingRadioOptions", // name
+        Model.UserAddress.Id,  // value
+        Model.IsBilling,       // is checked
+        new { }                // html attributes, eg html class
+      )
+      <span class="visible-xs">Use as billing address</span>
+    </label>
+  </div>
+
+</div>
