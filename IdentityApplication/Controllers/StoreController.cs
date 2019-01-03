@@ -36,7 +36,7 @@ namespace gellmvc.Controllers
 
       // pageOfProducts now contains the requested page of products.
       // We will not display pageOfProducts, but we will use it to build a list of product lines, and display that.
-      // productLines tells us how many of each item are in the user's cart.
+      // productLines tells us how many of each item are in the user's cart. It can be zero.
 
       foreach (Product product in pageOfProducts)
       {

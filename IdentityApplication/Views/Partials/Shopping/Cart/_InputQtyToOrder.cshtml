@@ -1,0 +1,73 @@
+﻿@model gellmvc.Domain.Entities.ProductLine
+
+<div class="col-xs-12 col-sm-5 parental-div parentalDiv-@Model.Product.Id">
+  <div class="row">
+
+    <!-- Input: Qty to order -->
+    <div class="col-xs-6">
+
+      <div class="row">
+        <label for="qtyToOrder-productId-@Model.Product.Id">
+          Qty to Order
+        </label>
+      </div>
+
+      <div class="row">
+        <div class="input-group" style="margin-right:5px;">
+
+          @Html.TextBox(
+              "qtyToOrder-input",
+              Model.QtyInCart,
+              new
+              {
+                  @type = "text",
+                  @class = "form-control qtyToOrder-input",
+                  @id = "qtyToOrder-productId-" + @Model.Product.Id.ToString()
+              }
+          )
+
+          <span class="input-group-btn">
+            <button class="btn btn-default qty-btn qty-btn-minus" id="qty-btn-minus-@Model.Product.Id" name="qty-btn-minus" type="button">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+            <button class="btn btn-default qty-btn qty-btn-plus" id="qty-btn-plus-@Model.Product.Id" name="qty-btn-plus" type="button">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </span>
+
+        </div>
+      </div>
+
+      @* MAX-STOCK MESSAGE appears here, thru javascript. *@
+      <div class="col-xs-12 maxStockMsg">
+        <div class="row">
+          <small>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Total -->
+    <div class="col-xs-6">
+      <div class="row">
+        <label>
+          Sub Total:
+        </label>
+      </div>
+      <div class="row">
+        @Html.TextBox(
+          "subtot-input",
+          "$ " + @Model.Subtotal,
+          new
+          {
+            @type = "text",
+            @disabled = "disabled",
+            @class = "form-control subtot-input",
+            @id = "subtot-productId-" + Model.Product.Id
+          }
+        )
+      </div>
+    </div>
+
+  </div>
+</div>

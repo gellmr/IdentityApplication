@@ -322,6 +322,11 @@
     <Content Include="Views\Partials\Shopping\Store\_ProductLine.cshtml" />
     <Content Include="Views\Partials\Shopping\_x_btn_remove_from_cart.cshtml" />
     <Content Include="Views\Partials\Shopping\Store\_InputQtyToOrder.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Partials\Shopping\_BackToStore.cshtml" />
+    <Content Include="Views\Partials\Shopping\Cart\_CartLine.cshtml" />
+    <Content Include="Views\Partials\Shopping\Cart\_InputQtyToOrder.cshtml" />
+    <Content Include="Views\Partials\Shopping\_SummaryRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,55 @@
+﻿
+@model gellmvc.Domain.Entities.ProductLine
+
+@*@Html.DisplayFor(m => @Model.Product.Id)
+  @Html.DisplayFor(m => @Model.Product.Name)
+  @Html.DisplayFor(m => @Model.Product.ImageUrl)
+  @Html.DisplayFor(m => @Model.Product.UnitPrice)
+  @Html.DisplayFor(m => @Model.Product.Description)
+  @Html.DisplayFor(m => @Model.Product.QuantityInStock)*@
+
+<div class="row well transparentBackground product-@Model.Product.Id">
+
+  <!-- Product name and description, Always visible. -->
+  <div class="col-xs-9 col-sm-4 dbug-always-visible">
+    <div class="row">
+      <label>
+        @Model.Product.Name
+      </label>
+    </div>
+
+    <div class="row">
+      <small>
+        @Model.Product.Description
+      </small>
+    </div>
+
+    <div class="row">
+      <small class="greyText">
+        @Model.Product.QuantityInStock in stock
+      </small>
+    </div>
+
+    <div class="row">
+      $ @Model.Product.UnitPrice <small class="greyText"> each </small>
+    </div>
+  </div>
+
+  <!-- X button, always visible -->
+  <div class="col-xs-1 col-sm-5 pull-right dbug-always-visible">
+    <div class="row pull-right">
+      @Html.Partial("~/Views/Partials/Shopping/_x_btn_remove_from_cart.cshtml")
+    </div>
+  </div>
+
+  <!-- Image tag, always visible -->
+  <div class="col-xs-12 col-sm-3 dbug-always-visible">
+    @{
+      string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
+    }
+    <img src="@imgFolder/@Model.Product.ImageUrl" alt="@imgFolder/@Model.Product.ImageUrl" class="img-rounded img-responsive centered-block-img with-vert-margins" />
+  </div>
+
+  @Html.Partial("~/Views/Partials/Shopping/Cart/_InputQtyToOrder.cshtml")
+
+</div>

@@ -1,0 +1,64 @@
+﻿@model gellmvc.Models.CartIndexViewModel
+
+<div class="row well transparentBackground cart-summary-row">
+
+  <div class="col-xs-12 col-sm-4">
+    <!-- Details Column -->
+  </div>
+
+  <div class="col-xs-12 col-sm-3">
+    <!-- Image Column -->
+  </div>
+
+  <div class="col-xs-12 col-sm-5">
+    <div class="row">
+
+      <!-- Total Items -->
+      <div class="col-xs-6">
+        <div class="row">
+          <label>
+            Total Items:
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="form-group" style="margin-right: 5px;">
+            @Html.TextBox(
+              "total-items-field",
+              @Model.Cart.TotalItemsInCart(),
+              new {
+                @type = "text",
+                @disabled = "disabled",
+                @class = "form-control total-items",
+                @id = "total-items-field"
+              }
+            )
+          </div>
+        </div>
+      </div>
+
+      <!-- Grand Total -->
+      <div class="col-xs-6">
+        <div class="row">
+          <label>
+            Grand Total:
+          </label>
+        </div>
+
+        <div class="row">
+          @Html.TextBox(
+              "grand-total-field",
+              "$ " + @Model.Cart.GrandTotal(),
+              new {
+                @type = "text",
+                @disabled = "disabled",
+                @class = "form-control grand-total",
+                @id = "grand-total-field"
+              }
+            )
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

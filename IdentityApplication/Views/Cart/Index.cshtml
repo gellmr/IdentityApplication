@@ -1,0 +1,101 @@
+﻿@model gellmvc.Models.CartIndexViewModel
+@{
+  ViewBag.Title = "Your Cart";
+}
+
+@using (Html.BeginForm("SubmitCart", "Cart"))
+{
+  <input type="hidden" id="page-location" name="page-location" value="cart">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="centeredProducts">
+
+        <div class="alert alert-warning" id="serverError" style="display:none;">
+          There was a server error.
+        </div>
+
+        <!-- render partials/flash message -->
+        <div class="row">
+          <div class="col-sm-12 hidden-xs">
+            <div class="text-center">
+              <h3 class="content-heading">
+                <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
+                <span id="my-cart-n-lines">My Cart: @Model.Cart.Lines.Count() Lines </span>
+              </h3>
+            </div>
+          </div>
+          <div class="col-xs-12 visible-xs">
+            <div class="row">
+              <div class="col-xs-5" style='margin-top:15px'>
+                <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
+              </div>
+              <div class="col-xs-7">
+                <h3 class="content-heading">
+                  My Cart: @Model.Cart.Lines.Count() Lines
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        @if (Model.Cart.Lines.Count() == 0)
+        {
+          @* need to center this or something *@
+          @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+          <hr />
+        }
+        else
+        {
+
+          //cart has items
+          <div class="row content-header-row">
+            <div class="col-xs-6">
+              <div class="row">
+                @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+              </div>
+            </div>
+
+            <div class="col-xs-6">
+              <div class="row">
+                <div class="pull-right">
+                  @Html.ActionLink("Clear My Cart", "ClearCart", "Cart", new {
+                    @id = "clearMyCartBtn",
+                    @class = (Model.Cart.Lines.Count() > 0) ? "btn btn-default content-header-btn" : "btn btn-default content-header-btn disabled"
+                  })
+                </div>
+              </div>
+            </div>
+          </div>
+
+          foreach (var line in Model.ProductLines)
+          {
+            @Html.Partial("~/Views/Partials/Shopping/Cart/_CartLine.cshtml", line)
+          }
+
+          @Html.Partial("~/Views/Partials/Shopping/_SummaryRow.cshtml")
+
+          if (Model.Cart.Lines.Count() > 0)
+          {
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="text-center">
+                  <h3>
+                    @Html.ActionLink("Proceed to checkout",
+                      "Index",     // method
+                      "Checkout",  // controller
+                      null,        // route arguments
+                      new { @class = "btn btn-default cart-submit-btn" } // html arguments
+                    )
+                  </h3>
+                </div>
+              </div>
+            </div>
+          }
+
+        }
+      </div>
+    </div>
+  </div>
+}
+@* End of Html form *@
