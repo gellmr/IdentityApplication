@@ -1,17 +1,26 @@
 ﻿@model gellmvc.Models.CartIndexViewModel
 
-@if (Model.User != null && Model.Addresses.Where( a => a.Deleted == false).Count() > 0 )
-{
-  <div class="row">
-    <div class="col-xs-12 well">
-      <h3>Shipping / Billing details:</h3>
+<div class="row">
+  <div class="col-xs-12 well">
+    <h3>Shipping Address:</h3>
 
+    <!--
+      Please read:
+      https://www.pluralsight.com/guides/asp-net-mvc-getting-default-data-binding-right-for-hierarchical-views
+    -->
+
+    @if (Model.User != null && Model.Addresses.Where(a => a.Deleted == false).Count() > 0)
+    {
       @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressHeader.cshtml")
 
-      @foreach (gellmvc.Models.UserAddress address in Model.Addresses){
+      // cannot use a foreach loop to get modelbinding working on a nested viewmodel. Use a for loop.
+
+      foreach (gellmvc.Models.UserAddress address in Model.Addresses)
+      {
         if (address.Deleted == false)
         {
-          @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressRow.cshtml", new gellmvc.Models.AddressRowViewModel{
+          @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressRow.cshtml", new gellmvc.Models.AddressRowViewModel
+          {
             User = Model.User,
             UserAddress = address,
             IsShipping = Model.ShippingAddress == address.Id,
@@ -19,7 +28,13 @@
           })
         }
       }
+    }
+    else
+    {
+      @Html.Partial("~/Views/Partials/Address/_AtPOS.cshtml", Model.AddressFieldsPOS, new ViewDataDictionary(ViewData) {
+        TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "AddressFieldsPOS" }
+      })
+    }
 
-    </div>
   </div>
-}
+</div>

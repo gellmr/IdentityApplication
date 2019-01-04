@@ -55,6 +55,7 @@ namespace gellmvc.Infrastructure
       //kernel.Bind<IProductRepository>().ToConstant(mock.Object);
 
       kernel.Bind<IProductRepository>().To<EFProductRepository>();
+      kernel.Bind<IUserAddressRepository>().To<EFUserAddressRepository>();
     }
   }
 }

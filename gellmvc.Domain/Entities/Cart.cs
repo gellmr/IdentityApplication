@@ -33,7 +33,7 @@ namespace gellmvc.Domain.Entities
 
     public void RemoveLine(Product product)
     {
-      lineCollection.RemoveAll(l => l.Product.Id == product.Id);
+      lineCollection.RemoveAll(l => l.Product.ProductId == product.ProductId);
     }
 
     public void Clear()
@@ -46,7 +46,7 @@ namespace gellmvc.Domain.Entities
     {
       foreach (CartLine line in lineCollection)
       {
-        if (line.Product.Id == product.Id)
+        if (line.Product.ProductId == product.ProductId)
         {
           return line.Quantity;
         }
@@ -59,7 +59,7 @@ namespace gellmvc.Domain.Entities
     {
       // Check if we already have one of these in the cart.
       CartLine line = lineCollection
-        .Where(p => p.Product.Id == product.Id)
+        .Where(p => p.Product.ProductId == product.ProductId)
         .FirstOrDefault();
 
       // If we already have one of these items in the cart, increment its quantity.

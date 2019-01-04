@@ -68,11 +68,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IOrderRepository.cs" />
     <Compile Include="Abstract\IProductsRepository.cs" />
+    <Compile Include="Abstract\IUserAddressRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
+    <Compile Include="Concrete\EFOrderRepository.cs" />
     <Compile Include="Concrete\EFProductRepository.cs" />
+    <Compile Include="Concrete\EFUserAddressRepository.cs" />
     <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\OrderedProduct.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\UserAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

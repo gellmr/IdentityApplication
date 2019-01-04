@@ -1,14 +1,14 @@
 ﻿
 @model gellmvc.Domain.Entities.ProductLine
 
-@*@Html.DisplayFor(m => @Model.Product.Id)
+@*@Html.DisplayFor(m => @Model.Product.ProductId)
   @Html.DisplayFor(m => @Model.Product.Name)
   @Html.DisplayFor(m => @Model.Product.ImageUrl)
   @Html.DisplayFor(m => @Model.Product.UnitPrice)
   @Html.DisplayFor(m => @Model.Product.Description)
   @Html.DisplayFor(m => @Model.Product.QuantityInStock)*@
 
-<div class="row well transparentBackground product-@Model.Product.Id">
+<div class="row well transparentBackground product-@Model.Product.ProductId">
 
   <!-- Product name and description, Always visible. -->
   <div class="col-xs-9 col-sm-4 dbug-always-visible">

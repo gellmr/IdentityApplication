@@ -239,6 +239,7 @@
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -335,6 +336,9 @@
     <Content Include="Views\Partials\Shopping\Checkout\_AddressSelection.cshtml" />
     <Content Include="Views\Partials\Shopping\Checkout\_CheckoutSummary.cshtml" />
     <Content Include="Views\Partials\Shopping\Checkout\_CheckoutSummaryRow.cshtml" />
+    <Content Include="Views\Order\Show.cshtml" />
+    <Content Include="Views\Partials\_FlashMessage.cshtml" />
+    <Content Include="Views\Partials\Address\_AtPOS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

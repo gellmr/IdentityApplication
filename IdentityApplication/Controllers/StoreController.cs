@@ -30,7 +30,7 @@ namespace gellmvc.Controllers
 
       pageOfProducts = repository.Products
         .Where(p => (searchString.Length > 0) ? (p.Name.ToLower().Contains(searchString) || p.Description.ToLower().Contains(searchString)) : true)
-        .OrderBy(p => p.Id)
+        .OrderBy(p => p.ProductId)
         .Skip((page - 1) * PageSize)
         .Take(PageSize);
 

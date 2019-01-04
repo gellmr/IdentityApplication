@@ -1,0 +1,114 @@
+@model gellmvc.Models.AddressFieldsPOS
+
+<!-- Please follow this guide
+  https://www.pluralsight.com/guides/asp-net-mvc-getting-default-data-binding-right-for-hierarchical-views
+-->
+
+<div class="col-xs-12" style="padding-top:10px; padding-bottom: 15px;">
+  <div class="form-group" style="max-width:400px;">
+
+    <div class="form-group">
+      <small>
+        @Html.LabelFor(model => model.ShippingAddressPOS.Line1, new { @class = "control-label" })
+      </small>
+      @Html.TextBoxFor(model => model.ShippingAddressPOS.Line1, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+      <small>
+        @Html.LabelFor(model => model.ShippingAddressPOS.Line2, new { @class = "control-label" })
+      </small>
+      @Html.TextBoxFor(model => model.ShippingAddressPOS.Line2, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group" style="max-width: 150px;">
+      <small>
+        @Html.LabelFor(model => model.ShippingAddressPOS.City, new { @class = "control-label" })
+      </small>
+      @Html.TextBoxFor(model => model.ShippingAddressPOS.City, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group" style="max-width: 150px;">
+      <small>
+        @Html.LabelFor(model => model.ShippingAddressPOS.State, new { @class = "control-label" })
+      </small>
+      @Html.TextBoxFor(model => model.ShippingAddressPOS.State, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group" style="max-width: 150px;">
+      <small>
+        @Html.LabelFor(model => model.ShippingAddressPOS.PostCode, new { @class = "control-label" })
+      </small>
+      @Html.TextBoxFor(model => model.ShippingAddressPOS.PostCode, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group" style="max-width: 250px;">
+      <small>
+        @Html.LabelFor(model => model.ShippingAddressPOS.CountryOrRegion, new { @class = "control-label" })
+      </small>
+      @Html.TextBoxFor(model => model.ShippingAddressPOS.CountryOrRegion, new { @class = "form-control" })
+    </div>
+
+    <!--input type="checkbox" id="same_for_billing" name="same_for_billing" checked-->
+    @Html.EditorFor(model => model.sameForBilling, new { htmlAttributes = new { @class = "form-control", @style = "display: inline-block; width: 50px;" } })
+    <label for="AddressFieldsPOS_sameForBilling" style="vertical-align: top; padding-top: 12px;">Same for Billing Address</label>
+
+  </div>
+</div>
+
+<!-- put Billing Address fields below, and hide them if checkbox is checked. -->
+<div id="hide-billing" style="display:none;">
+
+  <h3>Billing Address:</h3>
+
+  <div class="col-xs-12" style="padding-top:10px;">
+    <div class="form-group" style="max-width:400px;">
+
+      <div class="form-group">
+        <small>
+          @Html.LabelFor(model => model.BillingAddressPOS.Line1, new { @class = "control-label" })
+        </small>
+        @Html.TextBoxFor(model => model.BillingAddressPOS.Line1, new { @class = "form-control" })
+      </div>
+
+      <div class="form-group">
+        <small>
+          @Html.LabelFor(model => model.BillingAddressPOS.Line2, new { @class = "control-label" })
+        </small>
+        @Html.TextBoxFor(model => model.BillingAddressPOS.Line2, new { @class = "form-control" })
+      </div>
+
+      <div class="form-group" style="max-width: 150px;">
+        <small>
+          @Html.LabelFor(model => model.BillingAddressPOS.City, new { @class = "control-label" })
+        </small>
+        @Html.TextBoxFor(model => model.BillingAddressPOS.City, new { @class = "form-control" })
+      </div>
+
+      <div class="form-group" style="max-width: 150px;">
+        <small>
+          @Html.LabelFor(model => model.BillingAddressPOS.State, new { @class = "control-label" })
+        </small>
+        @Html.TextBoxFor(model => model.BillingAddressPOS.State, new { @class = "form-control" })
+      </div>
+
+      <div class="form-group" style="max-width: 150px;">
+        <small>
+          @Html.LabelFor(model => model.BillingAddressPOS.PostCode, new { @class = "control-label" })
+        </small>
+        @Html.TextBoxFor(model => model.BillingAddressPOS.PostCode, new { @class = "form-control" })
+      </div>
+
+      <div class="form-group" style="max-width: 250px;">
+        <small>
+          @Html.LabelFor(model => model.BillingAddressPOS.CountryOrRegion, new { @class = "control-label" })
+        </small>
+        @Html.TextBoxFor(model => model.BillingAddressPOS.CountryOrRegion, new { @class = "form-control" })
+      </div>
+
+      <span class='error-message'></span>
+
+    </div>
+  </div>
+
+</div>

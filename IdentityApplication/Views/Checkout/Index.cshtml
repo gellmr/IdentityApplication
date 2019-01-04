@@ -3,8 +3,16 @@
   var cartEmpty = (Model.Cart.Lines.Count() == 0);
 }
 
-@using (Html.BeginForm("Submit", "Checkout"))
+@using (Html.BeginForm("Create", "Order"))
 {
+  <!-- hidden fields so our view model will be posted back to the controller. -->
+  @Html.HiddenFor(x => Model.ProductLines)
+  @Html.HiddenFor(x => Model.Cart)
+  @Html.HiddenFor(x => Model.User)
+  @Html.HiddenFor(x => Model.Addresses)
+  @Html.HiddenFor(x => Model.ShippingAddress)
+  @Html.HiddenFor(x => Model.BillingAddress)
+
   <input type="hidden" id="page-location" name="page-location" value="checkout"> @* Used by some logic in store_and_cart.js *@
 
   <div class="row">
@@ -13,8 +21,6 @@
       <div class="alert alert-warning" id="serverError" style="display:none;">
         There was a server error.
       </div>
-
-      @* flash message goes here *@
 
       <div class="row">
         <div class="col-sm-12">
@@ -56,21 +62,15 @@
         <div style="height: 50px;"></div>
 
         @Html.Partial("~/Views/Partials/Shopping/Checkout/_CheckoutSummary.cshtml", Model)
-        
-        @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressSelection.cshtml")
+
+        <div style="height: 30px;"></div>
+
+        @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressSelection.cshtml", Model);
 
         <div class="row">
           <div class="col-xs-12">
             <div class="text-center">
-              @Html.ActionLink("Place Order",
-                "Create",    // method
-                "Order",     // controller
-                null,        // route arguments
-                new {
-                  @class = "btn btn-default go-next-btn",
-                  @type = "submit"
-                }
-              )
+              <input type="submit" class="btn btn-default go-next-btn" value="Place Order" />
             </div>
           </div>
         </div>

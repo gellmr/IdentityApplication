@@ -1,13 +1,13 @@
 ﻿@model gellmvc.Domain.Entities.ProductLine
 
-<div class="col-xs-12 col-sm-5 parental-div parentalDiv-@Model.Product.Id">
+<div class="col-xs-12 col-sm-5 parental-div parentalDiv-@Model.Product.ProductId">
 
   <div class="row">
     <!-- Input: Qty to order -->
     <div class="col-xs-8">
 
       <div class="row">
-        <label for="qtyToOrder-productId-@Model.Product.Id">
+        <label for="qtyToOrder-productId-@Model.Product.ProductId">
           Qty to Order
         </label>
       </div>
@@ -21,15 +21,15 @@
               new
               {
                   @class = "form-control qtyToOrder-input",
-                  @id = "qtyToOrder-productId-" + @Model.Product.Id.ToString()
+                  @id = "qtyToOrder-productId-" + @Model.Product.ProductId.ToString()
               }
           )
 
           <span class="input-group-btn">
-            <button class="btn btn-default qty-btn qty-btn-minus" id="qty-btn-minus-@Model.Product.Id" name="qty-btn-minus" type="button">
+            <button class="btn btn-default qty-btn qty-btn-minus" id="qty-btn-minus-@Model.Product.ProductId" name="qty-btn-minus" type="button">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
-            <button class="btn btn-default qty-btn qty-btn-plus" id="qty-btn-plus-@Model.Product.Id" name="qty-btn-plus" type="button">
+            <button class="btn btn-default qty-btn qty-btn-plus" id="qty-btn-plus-@Model.Product.ProductId" name="qty-btn-plus" type="button">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
           </span>

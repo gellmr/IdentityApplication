@@ -1,0 +1,29 @@
+﻿<div class="row orders-page">
+  <div class="col-xs-12">
+
+    @* flash message goes here *@
+
+    <div class="row content-header-row">
+      <div class="col-xs-12">
+        <p>
+          @Html.ActionLink("Show all Orders",
+            "Index",            // action
+            "Order",            // controller
+            new { },            // route values
+            new { @class = "" } // html attributes
+          )
+        </p>
+      </div>
+    </div>
+
+    <div class="well solidBackground mg-hover-static">
+      Order head <br />
+      Order line <br />
+      Order summary <br />
+    </div>
+
+  </div>
+</div>
+
+<br />
+<br />

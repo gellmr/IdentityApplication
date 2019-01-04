@@ -25,7 +25,7 @@ namespace gellmvc.Controllers
       foreach (CartLine cartLine in cart.Lines)
       {
         // Look up the product
-        Product product = repository.Products.FirstOrDefault(p => p.Id == cartLine.Product.Id);
+        Product product = repository.Products.FirstOrDefault(p => p.ProductId == cartLine.Product.ProductId);
         int qty = cartLine.Quantity;
         productLines.Add(new ProductLine
         {
@@ -42,13 +42,20 @@ namespace gellmvc.Controllers
         Cart = cart,
 
         User = "Mike Gell",
-        Addresses = new List<UserAddress> {
-          new UserAddress{ Id = 0, Value = "0 Graceful Loop, Swanview", Deleted = false},
-          new UserAddress{ Id = 1, Value = "1 Success Ave Bibra Lake", Deleted = false},
-          new UserAddress{ Id = 2, Value = "2 Grant Street Innaloo", Deleted = false}
+        Addresses = new List<Models.UserAddress> {
+          //new Models.UserAddress{ Id = 0, Value = "0 Graceful Loop, Swanview", Deleted = false},
+          //new Models.UserAddress{ Id = 1, Value = "1 Success Ave Bibra Lake", Deleted = false},
+          //new Models.UserAddress{ Id = 2, Value = "2 Grant Street Innaloo", Deleted = false}
         },
         ShippingAddress = 0, // Id of the address to use
         BillingAddress = 0,  // Id of the address to use
+
+        // These will be filled out if the user is creating address for the first time.
+        AddressFieldsPOS = new AddressFieldsPOS {
+          ShippingAddressPOS = new Models.UserAddress{ },
+          sameForBilling = true,
+          BillingAddressPOS = new Models.UserAddress { },
+        }
       };
 
       return viewModel;

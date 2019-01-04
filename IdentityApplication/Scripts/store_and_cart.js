@@ -234,6 +234,15 @@
     $('a#product-search-button').attr('href', "/Store/Search?searchString=" + searchString);
   }
 
+  var toggleBillingPOS = function (event) {
+    if (document.getElementById('AddressFieldsPOS_sameForBilling').checked) {
+      $("#hide-billing").css("display", "none");
+    }
+    else {
+      $("#hide-billing").css("display", "block");
+    }
+  }
+
   var storeAndCartReadyJs = function (e) {
 
     $('div.top-level-container').on(
@@ -266,6 +275,11 @@
       'click',
       '.remove-from-cart',
       removeFromCart
+    );
+
+    $("#AddressFieldsPOS_sameForBilling").on(
+      'click',
+      toggleBillingPOS
     );
   };
 

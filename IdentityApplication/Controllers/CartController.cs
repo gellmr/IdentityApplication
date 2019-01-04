@@ -12,7 +12,7 @@ namespace gellmvc.Controllers
     
     public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
     {
-      Product product = repository.Products.FirstOrDefault(p => p.Id == Id);
+      Product product = repository.Products.FirstOrDefault(p => p.ProductId == Id);
 
       if (product != null)
       {
@@ -37,7 +37,7 @@ namespace gellmvc.Controllers
     public HttpStatusCodeResult PutUpdate(Cart cart, CartUpdate cartUpdate)
     {
       // Check if there are sufficient quantity in stock.
-      Product product = repository.Products.FirstOrDefault(p => p.Id == cartUpdate.ProductId);
+      Product product = repository.Products.FirstOrDefault(p => p.ProductId == cartUpdate.ProductId);
 
       if (product.QuantityInStock >= cartUpdate.NewQty)
       {
