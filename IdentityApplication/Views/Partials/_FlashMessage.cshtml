@@ -1,4 +1,11 @@
-﻿@if (TempData["flashDanger"] != null)
+﻿@if (TempData["flashSuccess"] != null)
+{
+  <div class="alert alert-success" role="alert">
+    @TempData["flashSuccess"]
+  </div>
+}
+
+@if (TempData["flashDanger"] != null)
 {
   <div class="alert alert-danger" role="alert">
     @TempData["flashDanger"]

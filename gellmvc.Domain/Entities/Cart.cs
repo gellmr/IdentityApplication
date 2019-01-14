@@ -6,6 +6,7 @@ namespace gellmvc.Domain.Entities
 {
   public class Cart
   {
+
     private List<CartLine> lineCollection = new List<CartLine>();
 
     public class CartLine

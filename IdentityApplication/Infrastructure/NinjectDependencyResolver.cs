@@ -56,6 +56,7 @@ namespace gellmvc.Infrastructure
 
       kernel.Bind<IProductRepository>().To<EFProductRepository>();
       kernel.Bind<IUserAddressRepository>().To<EFUserAddressRepository>();
+      kernel.Bind<IOrderRepository>().To<EFOrderRepository>();
     }
   }
 }

@@ -10,8 +10,12 @@ namespace gellmvc.Domain.Concrete
 
     public EFDbContext(): base()
     {
+      // Default behaviour:
+      Database.SetInitializer<EFDbContext>(new CreateDatabaseIfNotExists<EFDbContext>());
+
       // Uncomment to recreate the database automatically at run time, from the Domain models using EF code-first - if the domain models are found to have changed.
-      Database.SetInitializer<EFDbContext>(new CustomDatabaseInitializer());
+      //Database.SetInitializer<EFDbContext>(new CustomDatabaseInitializer());
+
     }
 
     public DbSet<Product> Products { get; set; }

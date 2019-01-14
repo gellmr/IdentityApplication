@@ -14,9 +14,14 @@ namespace gellmvc.Controllers
   {
     public CheckoutController(IProductRepository repo) : base (repo) {}
     
-    public ViewResult Index(Cart cart)
+    public ViewResult Index(CartIndexViewModel model)
     {
-      return View(LookUpProducts(cart));
+      // If we have just been redirected here after logging in
+      if (TempData["CartIndexViewModel"] != null){
+        model = (CartIndexViewModel)TempData["CartIndexViewModel"];
+      }
+
+      return View(LookUpProducts(model));
     }
   }
 }

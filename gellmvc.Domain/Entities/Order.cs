@@ -13,7 +13,7 @@ namespace gellmvc.Domain.Entities
     public int Id { get; set; }               // PK
 
     [Required]
-    public int UserId { get; set; }
+    public string UserId { get; set; }
 
     public DateTime OrderDate { get; set; }
 
@@ -25,10 +25,36 @@ namespace gellmvc.Domain.Entities
     [MaxLength(25)]
     public string OrderStatus { get; set; }
     
-    public UserAddress ShippingAddressId { get; set; }  // FK
+    public UserAddress ShippingAddress { get; set; }  // FK
     
-    public UserAddress BillingAddressId { get; set; }   // FK
+    public UserAddress BillingAddress { get; set; }   // FK
     
     public IEnumerable<OrderedProduct> OrderedProducts { get; set; }
+
+    // The total number of items in the order. Eg 2 lines of 5 items == 10
+    public int GetTotalItems(){
+      if (OrderedProducts == null) { return 0; }
+      int count = 0;
+      foreach (OrderedProduct op in OrderedProducts){
+        count += op.ProductQty;
+      }
+      return count;
+    }
+
+    // The monetary total for this order.
+    public decimal GrandTotal(){
+      if (OrderedProducts == null) { return 0; }
+      decimal total = 0;
+      foreach (OrderedProduct op in OrderedProducts){
+        total += op.Product.UnitPrice * op.ProductQty;
+      }
+      return total;
+    }
+
+    // Eg 2 product lines
+    public int ProductLinesCount(){
+      if (OrderedProducts == null ) { return 0; }
+      return OrderedProducts.Count();
+    }
   }
 }

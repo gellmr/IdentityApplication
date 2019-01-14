@@ -121,14 +121,15 @@
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       data: JSON.stringify(params),
+
       statusCode: {
         200: function (jqXHR) {
-          var result = jqXHR.getResponseHeader('result');
-          var resultSubTot = jqXHR.getResponseHeader('resultSubTot');
+          var result         = jqXHR.getResponseHeader('result');
+          var resultSubTot   = jqXHR.getResponseHeader('resultSubTot');
           var resultGrandTot = jqXHR.getResponseHeader('resultGrandTot');
           var cartTotalItems = jqXHR.getResponseHeader('cartTotalItems');
           var cartTotalLines = jqXHR.getResponseHeader('cartTotalLines');
-          var message = jqXHR.getResponseHeader('message');
+          var message        = jqXHR.getResponseHeader('message');
           $("span#my-cart-n-lines").html("My Cart: " + cartTotalLines + " Lines");
           $("input.total-items").val(cartTotalItems);
           $("input.grand-total").val('$ ' + resultGrandTot);
@@ -281,6 +282,7 @@
       'click',
       toggleBillingPOS
     );
+    toggleBillingPOS(); // init once on document ready.
   };
 
   jQuery(document).ready(storeAndCartReadyJs);

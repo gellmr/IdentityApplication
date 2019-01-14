@@ -12,5 +12,12 @@ namespace gellmvc.Domain.Concrete
     {
       get { return context.UserAddresses; }
     }
+    
+    public UserAddress CreateAddress(UserAddress address)
+    {
+      context.UserAddresses.Add(address);
+      context.SaveChanges();
+      return address;
+    }
   }
 }

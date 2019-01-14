@@ -7,19 +7,23 @@ using System.Collections.Generic;
 
 namespace gellmvc.Controllers
 {
-  public class StoreController : Controller
+  public class StoreController : ShoppingController
   {
     private IProductRepository repository;
     public int PageSize = 5;
-
+    
     public StoreController(IProductRepository productRepository)
     {
       this.repository = productRepository;
     }
 
-    private StoreListViewModel GetPageOfProducts(Cart cart, int page = 1, string searchString = "")
+    private StoreListViewModel GetPageOfProducts(StoreListViewModel model) //(Cart cart, int page = 1, string searchString = "")
     {
-      searchString = searchString.ToLower();
+      // Cart is stored in the session (readable only on server).
+      Cart cart = GetSessionCart();
+
+      string searchString = model.SearchString.ToLower();
+      int page = (model.Pager == null) ? 1 : model.Pager.CurrentPage;
 
       IEnumerable<Product> pageOfProducts;
       List<ProductLine> productLines = new List<ProductLine>();
@@ -48,23 +52,16 @@ namespace gellmvc.Controllers
           Subtotal = qty * product.UnitPrice
         });
       }
-
-      // Construct the view model
-      StoreListViewModel viewModel = new StoreListViewModel
-      {
-        ProductLines = productLines,
-        Pager = new Pager(repository.Products.Count(), page, PageSize),
-        Cart = cart,
-        SearchString = searchString
-      };
-
-      return viewModel;
+      
+      model.Pager = new Pager(repository.Products.Count(), page, PageSize);
+      model.ProductLines = productLines;
+      return model;
     }
 
     // GET: /Store/Search
-    public ViewResult Search(Cart cart, int page = 1, string searchString = "")
+    public ViewResult Search(StoreListViewModel model)
     {
-      StoreListViewModel model = GetPageOfProducts(cart, page, searchString);
+      model = GetPageOfProducts(model);
       return View("Index", model);
     }
   }

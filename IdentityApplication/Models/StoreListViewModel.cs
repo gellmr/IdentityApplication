@@ -7,7 +7,13 @@ namespace gellmvc.Models
   {
     public IEnumerable<ProductLine> ProductLines { get; set; } // Product lines on page.
     public Pager Pager { get; set; }
-    public Cart Cart { get; set; }
     public string SearchString { get; set; }
+
+    public StoreListViewModel()
+    {
+      SearchString = "";
+      Pager = null;
+      ProductLines = null;
+    }
   }
 }

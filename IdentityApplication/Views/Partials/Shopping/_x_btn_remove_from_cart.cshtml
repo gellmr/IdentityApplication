@@ -6,6 +6,7 @@
         var vis = (Model.QtyInCart <= 0) ? "hidden" : "visible";
 }
 
+@* Some javascript will get attached to this, based on the id *@
 <button name="remove-from-cart" type="button" class="btn btn-default remove-from-cart" id="remove-from-cart-@Model.Product.ProductId" style="visibility:@vis;">
   <span class="glyphicon glyphicon-remove"></span>
 </button>

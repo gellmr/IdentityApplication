@@ -1,5 +1,11 @@
 ﻿@model gellmvc.Domain.Entities.ProductLine
 
+@*
+  very important information about how to use default model binding.
+  https://msdn.microsoft.com/en-us/magazine/hh781022.aspx
+*@
+
+<!-- InputQtyToOrder.cshtml -->
 <div class="col-xs-12 col-sm-5 parental-div parentalDiv-@Model.Product.ProductId">
 
   <div class="row">
@@ -15,8 +21,13 @@
       <div class="row">
         <div class="input-group" style="margin-right:5px;">
 
+          @Html.HiddenFor(model => model.QtyInCart)
+          @Html.HiddenFor(model => model.Subtotal)
+
+          @* Hopefully this helper provides us with model binding for the QtyInCart *@
+          <!-- Ensure name Product.QtyInCart for good model binding. -->
           @Html.TextBox(
-              "qtyToOrder-input",
+              "Product.QtyInCart", // qtyToOrder-input
               Model.QtyInCart,
               new
               {

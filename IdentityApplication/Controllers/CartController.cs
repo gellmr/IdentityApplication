@@ -10,34 +10,35 @@ namespace gellmvc.Controllers
   {
     public CartController(IProductRepository repo) : base (repo) {}
     
-    public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
-    {
-      Product product = repository.Products.FirstOrDefault(p => p.ProductId == Id);
+    //public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
+    //{
+    //  Product product = repository.Products.FirstOrDefault(p => p.ProductId == Id);
 
-      if (product != null)
-      {
-        cart.RemoveLine(product);
-      }
-      return RedirectToAction("Index", new { returnUrl });
-    }
+    //  if (product != null)
+    //  {
+    //    cart.RemoveLine(product);
+    //  }
+    //  return RedirectToAction("Index", new { returnUrl });
+    //}
     
-    public RedirectToRouteResult ClearCart(Cart cart)
+    //public RedirectToRouteResult ClearCart(Cart cart)
+    //{
+    //  cart.Clear();
+    //  return RedirectToAction("Index");
+    //}
+
+    public ViewResult Index(CartIndexViewModel model)
     {
-      cart.Clear();
-      return RedirectToAction("Index");
-    }
-    
-    public ViewResult Index(Cart cart)
-    {
-      return View(LookUpProducts(cart));
+      return View(LookUpProducts(model));
     }
     
     [HttpPut]
     [Route("Cart/PutUpdate")]
-    public HttpStatusCodeResult PutUpdate(Cart cart, CartUpdate cartUpdate)
+    public HttpStatusCodeResult PutUpdate(CartUpdate cartUpdate)
     {
       // Check if there are sufficient quantity in stock.
       Product product = repository.Products.FirstOrDefault(p => p.ProductId == cartUpdate.ProductId);
+      Cart cart = GetSessionCart();
 
       if (product.QuantityInStock >= cartUpdate.NewQty)
       {
@@ -45,8 +46,9 @@ namespace gellmvc.Controllers
         if (cartUpdate.NewQty == 0)
         {
           // User set qty to zero.
-          cart.RemoveLine(product);
+          //cart.RemoveLine(product);
           cartResponseHeaders(cart, "updated-qty", 0, 0, "Updated cart - set qty to zero.");
+          SaveSessionCart(cart);
           return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
         }
         else
@@ -56,6 +58,7 @@ namespace gellmvc.Controllers
             // User set qty to positive integer. Update cart quantity.
             Cart.CartLine line = cart.SetLineQuantity(product, cartUpdate.NewQty);
             cartResponseHeaders(cart, "updated-qty", line.Quantity, line.SubTotal, "Updated cart.");
+            SaveSessionCart(cart);
             return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
           }
           else
@@ -63,6 +66,7 @@ namespace gellmvc.Controllers
             // User set qty to negative integer. Remove from cart.
             cart.RemoveLine(product);
             cartResponseHeaders(cart, "removed-from-cart", 0, 0, "Removed item from cart.");
+            SaveSessionCart(cart);
             return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
           }
         }
@@ -78,6 +82,7 @@ namespace gellmvc.Controllers
           product.UnitPrice * product.QuantityInStock,
           "Only " + product.QuantityInStock + " items available!"
         );
+        SaveSessionCart(cart);
         return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
       }
     }

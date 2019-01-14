@@ -3,6 +3,11 @@
   ViewBag.Title = "Your Cart";
 }
 
+@*
+  Default model binder doco:
+  https://msdn.microsoft.com/en-us/magazine/hh781022.aspx
+*@
+
 @using (Html.BeginForm("SubmitCart", "Cart"))
 {
   <input type="hidden" id="page-location" name="page-location" value="cart">
@@ -21,7 +26,7 @@
             <div class="text-center">
               <h3 class="content-heading">
                 <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
-                <span id="my-cart-n-lines">My Cart: @Model.Cart.Lines.Count() Lines </span>
+                <span id="my-cart-n-lines">My Cart: @Model.ReadOnlyCart.Lines.Count() Lines </span>
               </h3>
             </div>
           </div>
@@ -32,14 +37,14 @@
               </div>
               <div class="col-xs-7">
                 <h3 class="content-heading">
-                  My Cart: @Model.Cart.Lines.Count() Lines
+                  My Cart: @Model.ReadOnlyCart.Lines.Count() Lines
                 </h3>
               </div>
             </div>
           </div>
         </div>
 
-        @if (Model.Cart.Lines.Count() == 0)
+        @if (Model.ReadOnlyCart.Lines.Count() == 0)
         {
           @* need to center this or something *@
           @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
@@ -61,7 +66,7 @@
                 <div class="pull-right">
                   @Html.ActionLink("Clear My Cart", "ClearCart", "Cart", new {
                     @id = "clearMyCartBtn",
-                    @class = (Model.Cart.Lines.Count() > 0) ? "btn btn-default content-header-btn" : "btn btn-default content-header-btn disabled"
+                    @class = (Model.ReadOnlyCart.Lines.Count() > 0) ? "btn btn-default content-header-btn" : "btn btn-default content-header-btn disabled"
                   })
                 </div>
               </div>
@@ -75,7 +80,7 @@
 
           @Html.Partial("~/Views/Partials/Shopping/_SummaryRow.cshtml")
 
-          if (Model.Cart.Lines.Count() > 0)
+          if (Model.ReadOnlyCart.Lines.Count() > 0)
           {
             <div class="row">
               <div class="col-xs-12">

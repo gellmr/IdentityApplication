@@ -14,21 +14,41 @@ namespace gellmvc.Controllers
 {
   public class OrderController : Controller
   {
-    protected IUserAddressRepository userAddressRepo;
+    protected IUserAddressRepository m_userAddressRepo;
+    protected IOrderRepository m_orderRepo;
 
-    public OrderController(IUserAddressRepository userAddyRepo){
-      userAddressRepo = userAddyRepo;
+    private bool m_gotAddressesInDatabase = false;
+    private IEnumerable<Domain.Entities.UserAddress> m_addressesInDatabase;
+    private string m_userId;
+
+    public OrderController(IUserAddressRepository userAddyRepo, IOrderRepository orderRepo){
+      m_userAddressRepo = userAddyRepo;
+      m_orderRepo = orderRepo;
+    }
+    
+    public ActionResult Index(){
+      IQueryable<Order> orders = m_orderRepo.GetOrdersByCustomerId(User.Identity.GetUserId());
+      OrderIndexViewModel model = new OrderIndexViewModel{
+        Orders = orders.ToList()
+      };
+      return View(model);
     }
 
-    // need to get the model binding to work on CartIndexViewModel
-    //
-    // https://www.pluralsight.com/guides/asp-net-mvc-getting-default-data-binding-right-for-hierarchical-views
-    //
     [HttpPost]
-    public ActionResult Create(CartIndexViewModel model)
+    public ActionResult Create(Cart cart, CartIndexViewModel model)
     {
       Debug.WriteLine("Try to create an order...");
-      if (UserGotAddresses(model) == false)
+
+      m_userId = User.Identity.GetUserId();
+
+      if (String.IsNullOrEmpty(m_userId))
+      {
+        TempData["flashDanger"] = "Please login before you can place this order.";
+        TempData["CartIndexViewModel"] = model;
+        return RedirectToAction("Login", "Account", new { returnURL = "/Checkout/Index" });
+      }
+
+      if (!model.ValidAddress())
       {
         Debug.WriteLine("User has got no addresses");
         TempData["flashDanger"] = "Please provide your Shipping and Billing address information.";
@@ -36,9 +56,9 @@ namespace gellmvc.Controllers
       }
       else
       {
-        Debug.WriteLine("User has got an address...");
+        Debug.WriteLine("Address info is available...");
 
-        if (PlaceOrder(model))
+        if (PlaceOrder(cart, model))
         {
           Debug.WriteLine("Order created successfully.");
           TempData["flashSuccess"] = "Your order was created successfully.";
@@ -48,37 +68,80 @@ namespace gellmvc.Controllers
           Debug.WriteLine("Could not create order.");
           TempData["flashDanger"] = "Could not create order.";
         }
-        return View("Show");
       }
+      return RedirectToAction("Index", "Order");
     }
 
-    private bool PlaceOrder(CartIndexViewModel model)
+    private bool PlaceOrder(Cart cart, CartIndexViewModel model)
     {
-      bool all_valid = true;
-      // need an orders repo to do the work.
-      return false;
+      Domain.Entities.UserAddress ship = DomainUserAddress(model.ShippingAddress());
+      Domain.Entities.UserAddress bill = DomainUserAddress(model.BillingAddress());
+
+      if (model.addressMode == CartIndexViewModel.AddressMode.PointOfSale)
+      {
+        // Check if we already have a matching address in the database that we can use.
+
+        Domain.Entities.UserAddress shipMatch = m_userAddressRepo.UserAddresses.Where(a => a.Line1.ToLower().Equals(ship.Line1.ToLower())).FirstOrDefault();
+
+        Domain.Entities.UserAddress billMatch = m_userAddressRepo.UserAddresses.Where(a => a.Line1.ToLower().Equals(bill.Line1.ToLower())).FirstOrDefault();
+
+        // Need to create the address objects in database first, otherwise it wont be able to find them because the foreign key will be missing. This due to my design with orderedproducts table, and no 'required' attribute on shipping address.
+
+        if (Domain.Entities.UserAddress.Matches(ship, shipMatch)) {
+          ship = shipMatch; // use the one already in the database.
+        }
+        else{
+          ship = m_userAddressRepo.CreateAddress(ship);
+        }
+        if (Domain.Entities.UserAddress.Matches(bill, billMatch)){
+          bill = billMatch; // use the one already in the database.
+        }
+        else{
+          bill = m_userAddressRepo.CreateAddress(bill);
+        }
+      }
+
+      Order order = new Order()
+      {
+        CreatedAt = DateTime.Now,
+        UpdatedAt = DateTime.Now,
+        OrderDate = DateTime.Now,
+        UserId = m_userId,
+        OrderStatus = "Not Shipped Yet",
+        ShippingAddress = ship,
+        BillingAddress = bill
+      };
+
+      List<OrderedProduct> orderedProducts = new List<OrderedProduct>();
+
+      foreach (CartLine cartLine in cart.Lines)
+      {
+        OrderedProduct orderedProduct = new OrderedProduct(){
+          Product = cartLine.Product,
+          ProductQty = cartLine.Quantity,
+          Order = order
+        };
+        orderedProducts.Add(orderedProduct);
+      }
+      order.OrderedProducts = orderedProducts; // these are not saving to the database yet. Need to do some work on the repo for ordered products.
+      
+      m_orderRepo.CreateOrder(order);
+      return true;
     }
-
-    private bool UserGotAddresses(CartIndexViewModel model)
-    {
-      string userId = User.Identity.GetUserId();
-
-      // Get the addresses for this user.
-      List<Domain.Entities.UserAddress> userAddresses = userAddressRepo.UserAddresses.Where(a => a.UserId.ToString() == userId).ToList();
-      if (userAddresses.Count() > 0) {
-        return true; // user has got addresses
-      }
-
-      // todo: use model validation here
-      if (String.IsNullOrEmpty(model.AddressFieldsPOS.ShippingAddressPOS.Line1))
+    
+    // Convert viewmodel useraddress into domain model user address.
+    private Domain.Entities.UserAddress DomainUserAddress(Models.UserAddress modelUserAddress) {
+      return new Domain.Entities.UserAddress()
       {
-        return false; // user failed to fill out shipping address line 1
-      }
-      if (model.AddressFieldsPOS.sameForBilling == false && String.IsNullOrEmpty(model.AddressFieldsPOS.BillingAddressPOS.Line1))
-      {
-        return false; // user failed to fill out billing address line 1
-      }
-      return true; // user has provided address details at point of sale.
+        Line1 = modelUserAddress.Line1,
+        Line2 = modelUserAddress.Line2,
+        City = modelUserAddress.City,
+        State = modelUserAddress.State,
+        PostCode = modelUserAddress.PostCode,
+        CountryOrRegion = modelUserAddress.CountryOrRegion,
+        Deleted = false,
+        UserId = m_userId
+      };
     }
   }
 }

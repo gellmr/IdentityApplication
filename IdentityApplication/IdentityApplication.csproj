@@ -240,11 +240,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ShoppingController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ApplicationHelper.cs" />
+    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Mailgun\MailgunMessage.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OrderIndexViewModel.cs" />
     <Compile Include="Models\Pager.cs" />
     <Compile Include="Models\StoreListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -339,6 +342,8 @@
     <Content Include="Views\Order\Show.cshtml" />
     <Content Include="Views\Partials\_FlashMessage.cshtml" />
     <Content Include="Views\Partials\Address\_AtPOS.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Partials\Order\_Head.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

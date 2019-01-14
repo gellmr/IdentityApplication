@@ -1,39 +1,40 @@
 ﻿@model gellmvc.Models.CartIndexViewModel
 
+@using gellmvc.Extensions
+
 <div class="row">
   <div class="col-xs-12 well">
     <h3>Shipping Address:</h3>
 
-    <!--
-      Please read:
-      https://www.pluralsight.com/guides/asp-net-mvc-getting-default-data-binding-right-for-hierarchical-views
-    -->
-
     @if (Model.User != null && Model.Addresses.Where(a => a.Deleted == false).Count() > 0)
     {
+      @* Got some addresses from the database.
+
       @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressHeader.cshtml")
 
-      // cannot use a foreach loop to get modelbinding working on a nested viewmodel. Use a for loop.
-
-      foreach (gellmvc.Models.UserAddress address in Model.Addresses)
+      // Cannot use a foreach loop to get modelbinding working on a nested viewmodel. Use a for loop.
+      for (var i = 0; i < Model.Addresses.Count(); i++)
       {
+        gellmvc.Models.UserAddress address = Model.Addresses.ElementAtOrDefault(i);
         if (address.Deleted == false)
         {
           @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressRow.cshtml", new gellmvc.Models.AddressRowViewModel
           {
             User = Model.User,
             UserAddress = address,
-            IsShipping = Model.ShippingAddress == address.Id,
-            IsBilling = Model.BillingAddress == address.Id
+            IsShipping = Model.ShippingAddressIdx == address.Id,
+            IsBilling = Model.BillingAddressIdx == address.Id
           })
         }
       }
+      *@
+
     }
     else
     {
-      @Html.Partial("~/Views/Partials/Address/_AtPOS.cshtml", Model.AddressFieldsPOS, new ViewDataDictionary(ViewData) {
-        TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "AddressFieldsPOS" }
-      })
+      @* No addresses available from database. Enter address details at point of sale. *@
+      
+      @Html.PartialFor(m => m.AddressFieldsPOS, "~/Views/Partials/Address/_AtPOS.cshtml")
     }
 
   </div>

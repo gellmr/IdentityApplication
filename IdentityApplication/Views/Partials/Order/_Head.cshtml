@@ -1,0 +1,50 @@
+﻿@model gellmvc.Domain.Entities.Order
+
+<div class="row tiny-font">
+  <div class="col-xs-12">
+
+    <p>
+      <strong>Order #</strong>@Model.Id
+      &nbsp
+      <strong>Created:</strong>
+      @Model.OrderDate.ToString("dd MMMM yyyy hh:mm tt")
+    </p>
+
+    <small>
+      <p>
+        <strong>Shipping Address:</strong>
+        @if (Model.ShippingAddress == null){
+          @:"None"
+        }else{
+          @Model.ShippingAddress.OneLine()
+        }
+      </p>
+
+      <p>
+        <strong>Billing Address:</strong>
+        @if (Model.BillingAddress == null)
+        {
+          @:"None"
+        }
+        else
+        {
+          @Model.BillingAddress.OneLine()
+        }
+      </p>
+
+      <p>
+        <strong>Product Lines:</strong> @Model.ProductLinesCount()
+        &nbsp
+        <strong>Total Items:</strong> @Model.GetTotalItems()
+        &nbsp
+        <strong>Invoice Total:</strong> $@Model.GrandTotal()
+      </p>
+    </small>
+
+    <p>
+      <strong>Status:</strong>
+      <small>@Model.OrderStatus</small>
+    </p>
+
+  </div>
+</div>

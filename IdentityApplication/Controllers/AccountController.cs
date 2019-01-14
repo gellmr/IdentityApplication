@@ -94,6 +94,7 @@ namespace IdentityApplication.Controllers
       switch (result)
       {
         case SignInStatus.Success:
+          //TempData.Keep();
           return RedirectToLocal(returnUrl);
         case SignInStatus.LockedOut:
           return View("Lockout");

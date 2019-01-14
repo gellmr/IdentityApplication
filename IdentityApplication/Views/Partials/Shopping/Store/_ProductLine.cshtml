@@ -1,15 +1,17 @@
-﻿
-
-@model gellmvc.Domain.Entities.ProductLine
-
-@*@Html.DisplayFor(m => @Model.Product.Id)
-  @Html.DisplayFor(m => @Model.Product.Name)
-  @Html.DisplayFor(m => @Model.Product.ImageUrl)
-  @Html.DisplayFor(m => @Model.Product.UnitPrice)
-  @Html.DisplayFor(m => @Model.Product.Description)
-  @Html.DisplayFor(m => @Model.Product.QuantityInStock)*@
+﻿@model gellmvc.Domain.Entities.ProductLine
 
 <div class="row well transparentBackground product-@Model.Product.ProductId">
+
+  <!-- These don't change so we just list them here to help the default model binding. -->
+
+  @*@Html.HiddenFor(model => model.Product.ProductId)
+  @Html.HiddenFor(model => model.Product.Name)
+  @Html.HiddenFor(model => model.Product.ImageUrl)
+  @Html.HiddenFor(model => model.Product.Description)
+  @Html.HiddenFor(model => model.Product.UnitPrice)
+  @Html.HiddenFor(model => model.Product.CostFromSupplier)
+  @Html.HiddenFor(model => model.Product.QuantityInStock)
+  @Html.HiddenFor(model => model.Product.CreatedAt)*@
 
   <!-- Product name and description, Always visible. -->
   <div class="col-xs-9 col-sm-4 dbug-always-visible">

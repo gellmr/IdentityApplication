@@ -22,7 +22,8 @@
         <div class="col-sm-12" id="product-search-div">
           <div class="input-group product-search-group">
             <!-- Search input-->
-            <input type="search" class="form-control product-search-control" id="product-search-input" name="product-search-input" value="@Model.SearchString" />
+            @*<input type="search" class="form-control product-search-control" id="product-search-input" name="product-search-input" value="@Model.SearchString" />*@
+            <input type="search" class="form-control product-search-control" id="product-search-input" name="SearchString" value="@Model.SearchString" />
             <!-- Search button -->
             <span class="input-group-btn">
               <a href="@Url.Action("Search", "Store", new { @searchString = ""})" id="product-search-button" class="btn btn-default product-search-control" name="product-search-button" type="button">
@@ -62,7 +63,7 @@
         </div>
       </div>
 
-      @* Go to cart button*@
+      @* Go to cart button. This is OUTSIDE of the form element above. Problem? *@
       <div class="row">
         <div class="col-md-12">
           <div class="text-center">
