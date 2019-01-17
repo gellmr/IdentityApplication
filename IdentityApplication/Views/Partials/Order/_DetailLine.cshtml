@@ -1,0 +1,17 @@
+﻿@model gellmvc.Domain.Entities.OrderedProduct
+
+<div class="row tiny-font row-order-line-item mg-table-feint">
+
+  <div class="col-xs-5">
+    @Model.Product.Name
+  </div>
+
+  <div class="col-xs-3 text-center">
+    @Model.QtyToOrder
+  </div>
+
+  <div class="col-xs-4 text-right">
+    $@(Model.QtyToOrder * Model.Product.UnitPrice)
+  </div>
+
+</div>

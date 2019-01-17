@@ -1,0 +1,9 @@
+﻿@model gellmvc.Domain.Entities.Order
+
+@Html.Partial("~/Views/Partials/Order/_DetailHead.cshtml")
+
+@for (int i = 0; i < Model.OrderedProducts.Count(); i++)
+{
+  var orderedProduct = Model.OrderedProducts.ElementAt(i);
+  @Html.Partial("~/Views/Partials/Order/_DetailLine.cshtml", orderedProduct)
+}

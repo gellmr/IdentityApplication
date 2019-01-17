@@ -15,9 +15,16 @@ namespace gellmvc.Domain.Concrete
     
     public UserAddress CreateAddress(UserAddress address)
     {
-      context.UserAddresses.Add(address);
-      context.SaveChanges();
+      var ctx = new EFDbContext();
+      ctx.UserAddresses.Add(address);
+      ctx.SaveChanges();
       return address;
+    }
+
+    public UserAddress GetAddressById(int? id)
+    {
+      if (id == null) { return null; }
+      return context.UserAddresses.Find(id);
     }
   }
 }

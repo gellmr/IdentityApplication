@@ -1,0 +1,20 @@
+﻿@model gellmvc.Domain.Entities.Order
+
+<div class="">
+  <div class="row  row-order-line-item mg-table-feint">
+
+    <div class="col-xs-5">
+      <b>Total</b>
+    </div>
+
+    <div class="col-xs-3 text-center">
+    </div>
+
+    <div class="col-xs-4 text-right">
+      <b>
+        $@Model.GrandTotal()
+      </b>
+    </div>
+
+  </div>
+</div>

@@ -10,4 +10,9 @@ namespace gellmvc.Models
   {
     public List<Order> Orders { get; set; }
   }
+
+  public class OrderViewModel
+  {
+    public Order Order { get; set; }
+  }
 }

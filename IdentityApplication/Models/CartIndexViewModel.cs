@@ -110,7 +110,7 @@ namespace gellmvc.Models
     [Key]
     public int Id { get; set; }
 
-    public int UserId { get; set; }
+    public string UserId { get; set; }
 
     [Required]
     [MaxLength(50)]

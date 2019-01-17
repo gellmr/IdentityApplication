@@ -14,7 +14,7 @@ namespace gellmvc.Domain.Concrete
       Database.SetInitializer<EFDbContext>(new CreateDatabaseIfNotExists<EFDbContext>());
 
       // Uncomment to recreate the database automatically at run time, from the Domain models using EF code-first - if the domain models are found to have changed.
-      //Database.SetInitializer<EFDbContext>(new CustomDatabaseInitializer());
+      Database.SetInitializer<EFDbContext>(new CustomDatabaseInitializer());
 
     }
 

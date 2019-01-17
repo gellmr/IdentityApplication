@@ -27,9 +27,19 @@ namespace gellmvc.Controllers
     }
     
     public ActionResult Index(){
-      IQueryable<Order> orders = m_orderRepo.GetOrdersByCustomerId(User.Identity.GetUserId());
+      IEnumerable<Order> orders = m_orderRepo.GetOrdersByCustomerId(User.Identity.GetUserId());
       OrderIndexViewModel model = new OrderIndexViewModel{
         Orders = orders.ToList()
+      };
+      return View(model);
+    }
+
+    public ActionResult Show(int? orderId)
+    {
+      if (orderId == null){ return RedirectToAction("Index");}
+      Order order = m_orderRepo.GetOrderById((int)orderId, new Domain.Concrete.EFProductRepository());
+      OrderViewModel model = new OrderViewModel{
+        Order = order
       };
       return View(model);
     }
@@ -47,6 +57,9 @@ namespace gellmvc.Controllers
         TempData["CartIndexViewModel"] = model;
         return RedirectToAction("Login", "Account", new { returnURL = "/Checkout/Index" });
       }
+
+      // Copy the POS details from shipping to billing, if the user has checked the checkbox.
+      if (model.AddressFieldsPOS.sameForBilling == true) { model.AddressFieldsPOS.BillingAddressPOS = model.AddressFieldsPOS.ShippingAddressPOS; }
 
       if (!model.ValidAddress())
       {
@@ -72,32 +85,50 @@ namespace gellmvc.Controllers
       return RedirectToAction("Index", "Order");
     }
 
+    // Convert viewmodel useraddress into domain model user address.
+    private Domain.Entities.UserAddress DomainUserAddress(Models.UserAddress modelUserAddress)
+    {
+      return new Domain.Entities.UserAddress()
+      {
+        Line1 = modelUserAddress.Line1,
+        Line2 = modelUserAddress.Line2,
+        City = modelUserAddress.City,
+        State = modelUserAddress.State,
+        PostCode = modelUserAddress.PostCode,
+        CountryOrRegion = modelUserAddress.CountryOrRegion,
+        Deleted = modelUserAddress.Deleted,
+        UserId = modelUserAddress.UserId
+      };
+    }
+
     private bool PlaceOrder(Cart cart, CartIndexViewModel model)
     {
-      Domain.Entities.UserAddress ship = DomainUserAddress(model.ShippingAddress());
-      Domain.Entities.UserAddress bill = DomainUserAddress(model.BillingAddress());
+      Models.UserAddress shipvm = model.ShippingAddress();
+      Models.UserAddress billvm = model.BillingAddress();
+      shipvm.UserId = m_userId;
+      billvm.UserId = m_userId;
+      Domain.Entities.UserAddress ship = DomainUserAddress(shipvm);
+      Domain.Entities.UserAddress bill = DomainUserAddress(billvm);
 
       if (model.addressMode == CartIndexViewModel.AddressMode.PointOfSale)
       {
         // Check if we already have a matching address in the database that we can use.
-
         Domain.Entities.UserAddress shipMatch = m_userAddressRepo.UserAddresses.Where(a => a.Line1.ToLower().Equals(ship.Line1.ToLower())).FirstOrDefault();
-
         Domain.Entities.UserAddress billMatch = m_userAddressRepo.UserAddresses.Where(a => a.Line1.ToLower().Equals(bill.Line1.ToLower())).FirstOrDefault();
-
-        // Need to create the address objects in database first, otherwise it wont be able to find them because the foreign key will be missing. This due to my design with orderedproducts table, and no 'required' attribute on shipping address.
-
-        if (Domain.Entities.UserAddress.Matches(ship, shipMatch)) {
+        
+        if (Domain.Entities.UserAddress.Matches(ship, shipMatch))
+        {
           ship = shipMatch; // use the one already in the database.
         }
         else{
-          ship = m_userAddressRepo.CreateAddress(ship);
+          ship = m_userAddressRepo.CreateAddress(ship); // Create in database.
         }
-        if (Domain.Entities.UserAddress.Matches(bill, billMatch)){
+        if (Domain.Entities.UserAddress.Matches(bill, billMatch))
+        {
           bill = billMatch; // use the one already in the database.
         }
         else{
-          bill = m_userAddressRepo.CreateAddress(bill);
+          bill = m_userAddressRepo.CreateAddress(bill); // Create in database.
         }
       }
 
@@ -109,7 +140,9 @@ namespace gellmvc.Controllers
         UserId = m_userId,
         OrderStatus = "Not Shipped Yet",
         ShippingAddress = ship,
-        BillingAddress = bill
+        BillingAddress = bill,
+        ShippingAddressId = ship.Id,
+        BillingAddressId = bill.Id
       };
 
       List<OrderedProduct> orderedProducts = new List<OrderedProduct>();
@@ -118,30 +151,15 @@ namespace gellmvc.Controllers
       {
         OrderedProduct orderedProduct = new OrderedProduct(){
           Product = cartLine.Product,
-          ProductQty = cartLine.Quantity,
+          QtyToOrder = cartLine.Quantity,
           Order = order
         };
         orderedProducts.Add(orderedProduct);
       }
-      order.OrderedProducts = orderedProducts; // these are not saving to the database yet. Need to do some work on the repo for ordered products.
+      order.OrderedProducts = orderedProducts;
       
       m_orderRepo.CreateOrder(order);
       return true;
-    }
-    
-    // Convert viewmodel useraddress into domain model user address.
-    private Domain.Entities.UserAddress DomainUserAddress(Models.UserAddress modelUserAddress) {
-      return new Domain.Entities.UserAddress()
-      {
-        Line1 = modelUserAddress.Line1,
-        Line2 = modelUserAddress.Line2,
-        City = modelUserAddress.City,
-        State = modelUserAddress.State,
-        PostCode = modelUserAddress.PostCode,
-        CountryOrRegion = modelUserAddress.CountryOrRegion,
-        Deleted = false,
-        UserId = m_userId
-      };
     }
   }
 }
