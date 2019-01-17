@@ -17,13 +17,12 @@ namespace gellmvc.Controllers
       this.repository = productRepository;
     }
 
-    private StoreListViewModel GetPageOfProducts(StoreListViewModel model) //(Cart cart, int page = 1, string searchString = "")
+    private StoreListViewModel GetPageOfProducts(StoreListViewModel model, int page = 1) //(Cart cart, int page = 1, string searchString = "")
     {
       // Cart is stored in the session (readable only on server).
       Cart cart = GetSessionCart();
 
       string searchString = model.SearchString.ToLower();
-      int page = (model.Pager == null) ? 1 : model.Pager.CurrentPage;
 
       IEnumerable<Product> pageOfProducts;
       List<ProductLine> productLines = new List<ProductLine>();
@@ -59,9 +58,9 @@ namespace gellmvc.Controllers
     }
 
     // GET: /Store/Search
-    public ViewResult Search(StoreListViewModel model)
+    public ViewResult Search(StoreListViewModel model, int page = 1)
     {
-      model = GetPageOfProducts(model);
+      model = GetPageOfProducts(model, page);
       return View("Index", model);
     }
   }
