@@ -26,6 +26,7 @@ namespace gellmvc.Domain.Concrete
       ctx.Orders.Add(order);
       foreach (OrderedProduct op in order.OrderedProducts){
         ctx.OrderedProducts.Add(op);
+        ctx.Entry(op.Product).State = EntityState.Unchanged; // Prevent EF from creating new Products
       }
       // Prevent EF from creating new addresses
       ctx.Entry(order).State = EntityState.Added;
