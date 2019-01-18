@@ -7,5 +7,6 @@ namespace gellmvc.Domain.Abstract
   {
     IEnumerable<UserAddress> UserAddresses { get; }
     UserAddress CreateAddress(UserAddress address);
+    UserAddress GetAddressById(int? id);
   }
 }

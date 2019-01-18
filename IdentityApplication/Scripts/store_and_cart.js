@@ -236,7 +236,8 @@
   }
 
   var toggleBillingPOS = function (event) {
-    if (document.getElementById('AddressFieldsPOS_sameForBilling').checked) {
+    var sameForBillingCheckbox = document.getElementById('AddressFieldsPOS_sameForBilling');
+    if (sameForBillingCheckbox != null && sameForBillingCheckbox.checked) {
       $("#hide-billing").css("display", "none");
     }
     else {

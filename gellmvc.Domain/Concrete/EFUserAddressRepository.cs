@@ -1,6 +1,7 @@
 ﻿using gellmvc.Domain.Abstract;
 using gellmvc.Domain.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace gellmvc.Domain.Concrete
 {
@@ -25,6 +26,12 @@ namespace gellmvc.Domain.Concrete
     {
       if (id == null) { return null; }
       return context.UserAddresses.Find(id);
+    }
+
+    public IEnumerable<UserAddress> LookUpAddressesForUser(string userId)
+    {
+      EFDbContext ctx = new EFDbContext();
+      return ctx.UserAddresses.Where(a => a.UserId.Equals(userId)) as IEnumerable<UserAddress>;
     }
   }
 }

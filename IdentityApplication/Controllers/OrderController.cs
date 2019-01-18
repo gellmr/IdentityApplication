@@ -9,6 +9,7 @@ using static gellmvc.Domain.Entities.Cart;
 using Microsoft.AspNet.Identity;
 using gellmvc.Domain.Abstract;
 using gellmvc.Models;
+using gellmvc.Helpers;
 
 namespace gellmvc.Controllers
 {
@@ -85,30 +86,20 @@ namespace gellmvc.Controllers
       return RedirectToAction("Index", "Order");
     }
 
-    // Convert viewmodel useraddress into domain model user address.
-    private Domain.Entities.UserAddress DomainUserAddress(Models.UserAddress modelUserAddress)
-    {
-      return new Domain.Entities.UserAddress()
-      {
-        Line1 = modelUserAddress.Line1,
-        Line2 = modelUserAddress.Line2,
-        City = modelUserAddress.City,
-        State = modelUserAddress.State,
-        PostCode = modelUserAddress.PostCode,
-        CountryOrRegion = modelUserAddress.CountryOrRegion,
-        Deleted = modelUserAddress.Deleted,
-        UserId = modelUserAddress.UserId
-      };
-    }
-
     private bool PlaceOrder(Cart cart, CartIndexViewModel model)
     {
       Models.UserAddress shipvm = model.ShippingAddress();
       Models.UserAddress billvm = model.BillingAddress();
       shipvm.UserId = m_userId;
       billvm.UserId = m_userId;
-      Domain.Entities.UserAddress ship = DomainUserAddress(shipvm);
-      Domain.Entities.UserAddress bill = DomainUserAddress(billvm);
+
+      // Try to look up from database.
+      Domain.Entities.UserAddress ship = m_userAddressRepo.GetAddressById(shipvm.Id as int?);
+      Domain.Entities.UserAddress bill = m_userAddressRepo.GetAddressById(billvm.Id as int?);
+
+      // Not in database.
+      if (ship == null) { ship = ModelHelpers.DomainUserAddress(shipvm); }
+      if (bill == null) { bill = ModelHelpers.DomainUserAddress(billvm); }
 
       if (model.addressMode == CartIndexViewModel.AddressMode.PointOfSale)
       {

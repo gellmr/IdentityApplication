@@ -15,26 +15,36 @@ namespace gellmvc.Models
       SelectFromExisting, // user has selected from their existing addresses
       PointOfSale         // user has entered address information at the point of sale
     }
-    public AddressFieldsPOS AddressFieldsPOS { get; set; } // If the user fills out address fields at the point of sale, (eg checkout) this object will have the details for shipping and billing address entered.
+
+    // If the user fills out address fields at the point of sale, (eg checkout), this object 
+    // will have the details for shipping and billing address entered.
+    public AddressFieldsPOS AddressFieldsPOS { get; set; }
 
     public string User { get; set; }
 
-    public IEnumerable<ProductLine> ProductLines { get; set; } // the current page of products we are viewing in the store
+    // The current page of products we are viewing in the store
+    public IEnumerable<ProductLine> ProductLines { get; set; }
 
     public Cart ReadOnlyCart { get; set; }
 
-    public IEnumerable<UserAddress> Addresses { get; set; }    // stored against this user in the database. Used for shipping and billing.
-    public int ShippingAddressIdx { get; set; } // id to use if we are using an address from the database
-    public int BillingAddressIdx { get; set; }  // id to use if we are using an address from the database
+    // Stored against this user in the database. Used for shipping and billing.
+    // Eg we may have 3 addresses available. Pseudocode: [{perth}, {canada}, {argentina}]
+    public IEnumerable<AddressRowViewModel> Addresses { get; set; }
+
+    // Eg if the user chooses shipping address {perth} and billing address {argentina}
+    // Then we will have ShippingRadioIdx==0 BillingRadioIdx==2
+    // The radio buttons will model bind to these properties.
+    public int ShippingRadioIdx { get; set; }
+    public int BillingRadioIdx { get; set; }
     
     public CartIndexViewModel()
     {
       AddressFieldsPOS = new AddressFieldsPOS();
       User = "Mike Gell";
       ProductLines = new List<ProductLine>();
-      Addresses = new List<UserAddress>();
-      ShippingAddressIdx = 0; // use the first item in Addresses if available.
-      BillingAddressIdx = 0;  // use the first item in Addresses if available.
+      Addresses = new List<AddressRowViewModel>();
+      ShippingRadioIdx = 0;
+      BillingRadioIdx = 0;
     }
 
     // returns true if a shipping and billing address have been selected/provided.
@@ -66,7 +76,7 @@ namespace gellmvc.Models
     {
       if (addressMode == AddressMode.SelectFromExisting)
       {
-        return Addresses.FirstOrDefault(a => a.Id == ShippingAddressIdx);
+        return Addresses.ElementAt(ShippingRadioIdx).UserAddress;
       } else {
         return AddressFieldsPOS.ShippingAddressPOS;
       }
@@ -77,7 +87,7 @@ namespace gellmvc.Models
     {
       if (addressMode == AddressMode.SelectFromExisting)
       {
-        return Addresses.FirstOrDefault(a => a.Id == BillingAddressIdx);
+        return Addresses.ElementAt(BillingRadioIdx).UserAddress;
       }
       else
       {
@@ -138,13 +148,15 @@ namespace gellmvc.Models
     public string CountryOrRegion { get; set; }
 
     public bool Deleted { get; set; }
+
+    public string OneLine()
+    {
+      return String.Format("{0} {1} {2} {3} {4}", Line1, City, State, PostCode, CountryOrRegion);
+    }
   }
 
   public class AddressRowViewModel
   {
-    public string User { get; set; }
     public UserAddress UserAddress { get; set; }
-    public bool IsShipping { get; set; }
-    public bool IsBilling { get; set; }
   }
 }

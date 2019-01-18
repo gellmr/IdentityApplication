@@ -247,6 +247,7 @@
     </Compile>
     <Compile Include="Helpers\ApplicationHelper.cs" />
     <Compile Include="Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="Helpers\ModelHelpers.cs" />
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Mailgun\MailgunMessage.cs" />

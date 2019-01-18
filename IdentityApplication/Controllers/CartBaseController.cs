@@ -42,19 +42,7 @@ namespace gellmvc.Controllers
         }
       }
 
-      if (cartIndexVM == null)
-      {
-        // Construct the view model
-        cartIndexVM = new CartIndexViewModel
-        {
-          Addresses = new List<Models.UserAddress>
-          {
-            //new Models.UserAddress{ Id = 0, Value = "0 Graceful Loop, Swanview", Deleted = false},
-            //new Models.UserAddress{ Id = 1, Value = "1 Success Ave Bibra Lake", Deleted = false},
-            //new Models.UserAddress{ Id = 2, Value = "2 Grant Street Innaloo", Deleted = false}
-          }
-        };
-      }
+      if (cartIndexVM == null){ cartIndexVM = new CartIndexViewModel(); }
 
       cartIndexVM.ProductLines = cartProducts; // this is the current page of products being viewed
       cartIndexVM.ReadOnlyCart = cart;
