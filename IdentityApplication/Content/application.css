@@ -6072,18 +6072,17 @@ a.noUnderline, a.noUnderline:focus {
   color: #697F92; }
 
 a.noUnderline:hover, a.noUnderline:focus {
-  text-decoration: none;
-  color: #435463; }
+  text-decoration: none; }
 
 div.well.solidBackground.mg-hover {
-  background-color: #fafafa;
+  background-color: white;
   border-style: solid;
   border-width: 1px;
   padding-top: 14px;
   padding-bottom: 5px; }
 
 div.well.solidBackground.mg-hover:hover {
-  background-color: #f0f0f0; }
+  background-color: whitesmoke; }
 
 div.well.solidBackground.mg-hover-static {
   background-color: #fafafa;
@@ -6097,7 +6096,6 @@ div.mg-border-bottom {
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #e9e9e9;
-  /*margin-bottom: 15px;*/
   margin-bottom: 0px;
   padding-bottom: 7px; }
 

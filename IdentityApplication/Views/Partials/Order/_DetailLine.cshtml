@@ -4,15 +4,21 @@
 
   <div class="col-xs-5">
 
-    <!-- Image tag, always visible -->
-    <div class="col-xs-12 col-sm-3 dbug-always-visible">
-      @{
-        string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
-      }
-      <img src="@imgFolder/@Model.Product.ImageUrl" alt="@imgFolder/@Model.Product.ImageUrl" class="img-rounded img-responsive with-vert-margins" style="max-width: 40px;"/>
+    <div class="row">
+      <div class="col-sm-4 col-xs-12">
+        <!-- Image tag -->
+        <div style="width: 50px; display:inline-block;">
+          @{
+            string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
+          }
+          <img src="@imgFolder/@Model.Product.ImageUrl" alt="@imgFolder/@Model.Product.ImageUrl" class="img-rounded img-responsive with-vert-margins" style="max-width: 40px;" />
+        </div>
+      </div>
+      <div class="col-sm-8 col-xs-12">
+        @Model.Product.Name
+      </div>
     </div>
-
-    @Model.Product.Name
+    
   </div>
 
   <div class="col-xs-3 text-center">

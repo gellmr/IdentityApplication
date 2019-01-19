@@ -18,7 +18,9 @@
       {
         <a href="@Url.Action("Show", "Order", new { @OrderId = order.Id })" class="noUnderline">
           <div class="well solidBackground mg-hover">
-            @Html.Partial("~/Views/Partials/Order/_Head.cshtml", order)
+            @Html.Partial("~/Views/Partials/Order/_Head.cshtml", order,
+              new ViewDataDictionary { { "showImages", true } }
+            )
           </div>
         </a>
       }

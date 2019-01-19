@@ -4,16 +4,23 @@
   <div class="row  row-order-line-item mg-table-feint">
 
     <div class="col-xs-5">
-      <b>Total</b>
     </div>
 
-    <div class="col-xs-3 text-center">
+    <div class="col-xs-3 text-center" style="border: none;">
     </div>
 
-    <div class="col-xs-4 text-right">
-      <b>
-        $@Model.GrandTotal()
-      </b>
+    <div class="col-xs-4" style="border: none;">
+
+      <div class="pull-right" style="border: none;">
+        <div class="" style="width:60px; display:inline-block; border: none; ">
+          <b>Total:</b>
+        </div>
+
+        <div class="pull-right text-right" style="display:inline-block; border: none;">
+          <b>$@Model.GrandTotal()</b>
+        </div>
+      </div>
+
     </div>
 
   </div>

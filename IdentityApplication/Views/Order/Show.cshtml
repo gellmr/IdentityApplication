@@ -17,7 +17,9 @@
     </div>
 
     <div class="well solidBackground mg-hover-static">
-      @Html.Partial("~/Views/Partials/Order/_Head.cshtml", Model.Order)
+      @Html.Partial("~/Views/Partials/Order/_Head.cshtml", Model.Order,
+        new ViewDataDictionary { { "showImages", false } }
+      )
 
       @Html.Partial("~/Views/Partials/Order/_Line.cshtml", Model.Order)
       @Html.Partial("~/Views/Partials/Order/_Summary.cshtml", Model.Order)
