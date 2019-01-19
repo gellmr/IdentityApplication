@@ -40,6 +40,9 @@ button.remove-from-cart:hover {
 }
 
 .centeredProducts {
+  padding-left: 20px;
+  padding-right: 20px;
+
   /* Products are displayed in a single centered column, for small screens. */
   @media screen and (max-width: 767px) {
     min-width: 193px;

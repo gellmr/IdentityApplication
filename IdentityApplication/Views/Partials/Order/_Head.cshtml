@@ -53,23 +53,27 @@
 
   </div>
 
+  @* Render the image tags that are displayed within the Head partial, this is only on the Orders Index page. *@
   @{if (showImages == true){
 
-    <div class="col-xs-4">
-    @for (int i = 0; i < Model.OrderedProducts.Count(); i++)
-    {
-      var op = Model.OrderedProducts.ElementAt(i);
+    <div class="col-xs-4" style="border: 1px solid #f6f6f6; border-radius: 5px; min-height: 139px;">
+      <div class="row" style="padding-right:18px;">
 
-      <!-- Image tag, always visible -->
-      <div class="col-xs-12 col-sm-3 dbug-always-visible">
-      @{
-        string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
-      }
-      <img src="@imgFolder/@op.Product.ImageUrl" alt="@imgFolder/@op.Product.ImageUrl" class="img-rounded img-responsive centered-block-img with-vert-margins" style="max-width: 40px;" />
+        @for (int i = 0; i < Model.OrderedProducts.Count(); i++)
+        {
+          var op = Model.OrderedProducts.ElementAt(i);
+          <!-- Image tag, always visible -->
+          <div class="col-xs-3">
+            @{
+              string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
+            }
+            @*<img src="@imgFolder/@op.Product.ImageUrl" alt="@imgFolder/@op.Product.ImageUrl" class="img-rounded img-responsive centered-block-img with-vert-margins" style="max-width: 40px;" />*@
+            <img src="@imgFolder/@op.Product.ImageUrl" alt="@imgFolder/@op.Product.ImageUrl" class="" style="max-width: 40px; display: inline-block;" />
+          </div>
+        }
+
       </div>
-    }
     </div>
-
   }}
 
 </div>

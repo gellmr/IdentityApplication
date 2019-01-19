@@ -5,10 +5,10 @@
 
 @using (Html.BeginForm("Create", "Order"))
 {
-
+  
   <input type="hidden" id="page-location" name="page-location" value="checkout"> @* Used by some logic in store_and_cart.js *@
 
-  <div class="row">
+  <div class="row" style="padding-left: 20px; padding-right: 20px;">
     <div class="col-xs-12">
 
       <div class="alert alert-warning" id="serverError" style="display:none;">
@@ -45,11 +45,11 @@
       else
       {
         <div class="row">
-          <hr />
+          <hr style="margin-bottom: 5px;"/>
           @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
           @Html.Partial("~/Views/Partials/Shopping/_BackToCart.cshtml")
           <a href="/Checkout/Index" class="btn btn-default content-header-btn" disabled="disabled">Reviewing Your Order...</a>
-          <hr />
+          <hr style="margin-top: 5px;"/>
         </div>
 
         <div style="height: 50px;"></div>
@@ -72,4 +72,5 @@
     </div>
   </div>
 }
+
 @* End of Html form *@

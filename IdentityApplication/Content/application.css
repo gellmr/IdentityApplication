@@ -5941,10 +5941,14 @@ h3.content-heading {
   font-size: 35px; }
 
 a.btn.content-header-btn {
-  border-style: none;
-  /*margin-bottom: 15px;*/
+  background-color: whitesmoke;
+  border: 1px solid gray;
+  border-color: #e1e1e1;
   padding-left: 20px;
   padding-right: 20px; }
+
+a.btn.content-header-btn:hover {
+  background-color: #f0f0f0; }
 
 div.centeredProducts div.row.content-header-row {
   border-style: solid;
@@ -6160,6 +6164,8 @@ button.remove-from-cart:hover {
   background-color: transparent; }
 
 .centeredProducts {
+  padding-left: 20px;
+  padding-right: 20px;
   /* Products are displayed in a single centered column, for small screens. */ }
   @media screen and (max-width: 767px) {
     .centeredProducts {

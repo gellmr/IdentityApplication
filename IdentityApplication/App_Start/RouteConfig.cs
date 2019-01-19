@@ -21,6 +21,18 @@ namespace IdentityApplication
 
       routes.MapRoute(
         name: null,
+        url: "Home/Index",
+        defaults: new { Controller = "Store", action = "Search" }
+      );
+
+      routes.MapRoute(
+        name: null,
+        url: "Home",
+        defaults: new { Controller = "Store", action = "Search" }
+      );
+
+      routes.MapRoute(
+        name: null,
         url: "Store/Index",
         defaults: new { Controller = "Store", action = "Search" }
       );

@@ -26,13 +26,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li>@Html.ActionLink("Home", "Index", "Home")</li>
-          <li>@Html.ActionLink("About", "About", "Home")</li>
-          <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+          <li>@Html.ActionLink("Shop for Gadgets", "Index", "Store")</li>
+          <li>@Html.ActionLink("My Cart", "Index", "Cart")</li>
+          @if (Request.IsAuthenticated)
+          {
+            <li>@Html.ActionLink("My Orders", "Index", "Order")</li>}
         </ul>
         @Html.Partial("_LoginPartial")
       </div>
@@ -41,10 +42,6 @@
 
   <div class="top-level-container">
     <a href="#pagetop"></a>
-    <div class="navbar" role="navigation">
-      <a class="navbar-brand" href="#">Mike Gell Demo</a>
-    </div>
-
     @Html.Partial("~/Views/Partials/_FlashMessage.cshtml")
     @RenderBody()
   </div>

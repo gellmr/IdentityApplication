@@ -13,6 +13,7 @@ using gellmvc.Helpers;
 
 namespace gellmvc.Controllers
 {
+  [Authorize]
   public class OrderController : Controller
   {
     protected IUserAddressRepository m_userAddressRepo;
@@ -43,6 +44,11 @@ namespace gellmvc.Controllers
         Order = order
       };
       return View(model);
+    }
+
+    public ActionResult Create(){
+      //TempData.Keep();
+      return Redirect("/Checkout/Index");
     }
 
     [HttpPost]
@@ -150,6 +156,8 @@ namespace gellmvc.Controllers
       order.OrderedProducts = orderedProducts;
       
       m_orderRepo.CreateOrder(order);
+
+      cart.Clear();
       return true;
     }
   }

@@ -73,6 +73,19 @@
     parentalDiv.find('.inCartIcon').hide();
   };
 
+  // Show or hide the "cart is empty" message
+  var setCartIsEmptyDisplayMode = function (boolIsEmpty) {
+    if (boolIsEmpty == true) {
+      // cart is empty
+      $("div.cart-is-empty-msg").css("display", "block");
+      $("span.in-your-cart-msg").css("display", "none");
+    } else {
+      // cart is not empty
+      $("div.cart-is-empty-msg").css("display", "none");
+      $("span.in-your-cart-msg").css("display", "block");
+    }
+  }
+
   var updateCart = function (productId, newQty, inputElement) {
 
     var parentalDiv = $('div.parentalDiv-' + productId);
@@ -129,8 +142,10 @@
           var resultGrandTot = jqXHR.getResponseHeader('resultGrandTot');
           var cartTotalItems = jqXHR.getResponseHeader('cartTotalItems');
           var cartTotalLines = jqXHR.getResponseHeader('cartTotalLines');
-          var message        = jqXHR.getResponseHeader('message');
-          $("span#my-cart-n-lines").html("My Cart: " + cartTotalLines + " Lines");
+          var message = jqXHR.getResponseHeader('message');
+
+          setCartIsEmptyDisplayMode(cartTotalLines == 0);
+          
           $("input.total-items").val(cartTotalItems);
           $("input.grand-total").val('$ ' + resultGrandTot);
           console.log("message:" + message + " result:" + result);
@@ -253,8 +268,8 @@
       quantityInputField
     );
 
-    $('.cart-submit-btn').on('check-if-no-products', checkIfNoProducts);
-    $('.cart-submit-btn').trigger('check-if-no-products');
+    //$('.cart-submit-btn').on('check-if-no-products', checkIfNoProducts);
+    //$('.cart-submit-btn').trigger('check-if-no-products');
 
     $('div.top-level-container').on(
       'click',

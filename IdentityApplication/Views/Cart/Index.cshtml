@@ -20,24 +20,39 @@
           There was a server error.
         </div>
 
-        <!-- render partials/flash message -->
         <div class="row">
+
+          @{
+            var cartEmpty = (Model.ReadOnlyCart.Lines.Count() == 0);
+            var cartIsEmptyTagDisplayMode = "display: none;";
+            var yourCartTagDisplayMode    = "display: block;";
+            if (cartEmpty == true){
+              cartIsEmptyTagDisplayMode = "display: block;";
+              yourCartTagDisplayMode = "display: none;";
+            }
+          }
+
+          @* small *@
           <div class="col-sm-12 hidden-xs">
             <div class="text-center">
               <h3 class="content-heading">
                 <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
-                <span id="my-cart-n-lines">My Cart: @Model.ReadOnlyCart.Lines.Count() Lines </span>
+                <div class="cart-is-empty-msg" style="@cartIsEmptyTagDisplayMode"><h4>Your cart is empty!</h4></div>
+                <span class="in-your-cart-msg" style="@yourCartTagDisplayMode">In Your Cart:</span>
               </h3>
             </div>
           </div>
+
+          @* xtra small *@
           <div class="col-xs-12 visible-xs">
             <div class="row">
               <div class="col-xs-5" style='margin-top:15px'>
                 <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
               </div>
               <div class="col-xs-7">
-                <h3 class="content-heading">
-                  My Cart: @Model.ReadOnlyCart.Lines.Count() Lines
+                <h3 style="font-size: 20px; padding-top:20px;">
+                  <div class="cart-is-empty-msg" style="@cartIsEmptyTagDisplayMode"><span>Your cart is empty!</span></div>
+                  <span class="in-your-cart-msg" style="@yourCartTagDisplayMode">In Your Cart:</span>
                 </h3>
               </div>
             </div>
@@ -46,9 +61,9 @@
 
         @if (Model.ReadOnlyCart.Lines.Count() == 0)
         {
-          @* need to center this or something *@
+          <hr style="margin-bottom:5px;" />
           @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
-          <hr />
+          <hr style="margin-top:5px;"/>
         }
         else
         {

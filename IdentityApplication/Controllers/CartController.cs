@@ -9,7 +9,7 @@ namespace gellmvc.Controllers
   public class CartController : CartBaseController
   {
     public CartController(IProductRepository repo) : base (repo) {}
-    
+
     //public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
     //{
     //  Product product = repository.Products.FirstOrDefault(p => p.ProductId == Id);
@@ -20,12 +20,12 @@ namespace gellmvc.Controllers
     //  }
     //  return RedirectToAction("Index", new { returnUrl });
     //}
-    
-    //public RedirectToRouteResult ClearCart(Cart cart)
-    //{
-    //  cart.Clear();
-    //  return RedirectToAction("Index");
-    //}
+
+    public RedirectToRouteResult ClearCart(Cart cart)
+    {
+      cart.Clear();
+      return RedirectToAction("Index");
+    }
 
     public ViewResult Index(CartIndexViewModel model)
     {
