@@ -3,6 +3,15 @@
 <div class="row tiny-font row-order-line-item mg-table-feint">
 
   <div class="col-xs-5">
+
+    <!-- Image tag, always visible -->
+    <div class="col-xs-12 col-sm-3 dbug-always-visible">
+      @{
+        string imgFolder = gellmvc.Helpers.ApplicationHelper.ProductImagesFolder();
+      }
+      <img src="@imgFolder/@Model.Product.ImageUrl" alt="@imgFolder/@Model.Product.ImageUrl" class="img-rounded img-responsive with-vert-margins" style="max-width: 40px;"/>
+    </div>
+
     @Model.Product.Name
   </div>
 
