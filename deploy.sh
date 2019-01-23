@@ -138,6 +138,8 @@ printf "\n"
 
 
 echo "------------------------------------------ NPM, BOWER, GRUNT..."
+printf "\n"
+printf "\n"
 echo "----------------- Install NPM stuff"
 
 # Go to repo root.
@@ -156,6 +158,8 @@ fi
 
 
 
+printf "\n"
+printf "\n"
 echo "----------------- Install bower stuff"
 
 # Install Bower modules
@@ -170,6 +174,8 @@ fi
 
 
 
+printf "\n"
+printf "\n"
 echo "----------------- Run grunt tasks"
 
 # Run Grunt Task. This populates Content folder
