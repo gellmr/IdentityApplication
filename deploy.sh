@@ -80,7 +80,7 @@ if [[ -n "$CLEAN_LOCAL_DEPLOYMENT_TEMP" ]]; then
   mkdir "$DEPLOYMENT_TEMP"
 fi
 
-echo "DEPLOYMENT_TEMP: $DEPLOYMENT_TEMP"
+echo "------------ DEPLOYMENT_TEMP: $DEPLOYMENT_TEMP"
 
 if [[ ! -n "$MSBUILD_PATH" ]]; then
   # location on my machine...
@@ -123,7 +123,7 @@ selectNodeVersion () {
 
 printf "\n"
 printf "\n"
-#pause "press ENTER to restore NUGET packages"
+echo "----------------- Restore NUGET packages"
 
 # Restore NuGet packages
 if [ ! -f "$DEPLOYMENT_SOURCE"/IdentityApplication.sln ]; then
@@ -149,7 +149,7 @@ fi
 # Build to the temporary path
 printf "\n"
 printf "\n"
-echo "Do MSBuild..."
+echo "------------ Do MSBuild..."
 # Tell MSBuild to build our solution.
 # compiles to /IdentityApplication/IdentityApplication/___deployTemp/_PublishedWebsites
 
@@ -163,7 +163,7 @@ printf "\n"
 
 echo "NPM, BOWER, GRUNT..."
 
-#pause "press ENTER to install NPM stuff"
+echo "----------------- Install NPM stuff"
 
 # Go to repo root.
 cd "$DEPLOYMENT_SOURCE"
@@ -179,7 +179,7 @@ if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
   cd - > /dev/null
 fi
 
-#pause "press ENTER to install bower stuff"
+echo "----------------- Install bower stuff"
 
 # Install Bower modules
 if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
@@ -191,7 +191,7 @@ if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
   cd - > /dev/null
 fi
 
-#pause "press ENTER to run grunt tasks"
+echo "----------------- Run grunt tasks"
 
 # Run Grunt Task. This populates Content folder
 if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
@@ -202,8 +202,8 @@ if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
   cd - > /dev/null
 fi
 
-echo "This will copy Content files to ___deployTemp/_PublishedWebsites/IdentityApplication"
-#pause "press ENTER"
+echo "------------ This will copy Content files to ___deployTemp/_PublishedWebsites/IdentityApplication"
+
 if [ ! -d "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/_PublishedWebsites/IdentityApplication ]; then
   mkdir -p "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/_PublishedWebsites/IdentityApplication
 fi
@@ -213,7 +213,7 @@ else
   echo "$DEPLOYMENT_SOURCE/IdentityApplication/Content" does not exist
 fi
 
-echo "This will copy IdentityApplication/___deployTemp into the Kudu ___deployTemp folder..."
+echo "------------ This will copy IdentityApplication/___deployTemp into the Kudu ___deployTemp folder..."
 #pause "press ENTER"
 if [ "$HOSTNAME" = "COSYGLOW" ]; then
   cp -R "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/* "$DEPLOYMENT_SOURCE"/___deployTemp/
@@ -222,7 +222,7 @@ fi
 printf "\n"
 printf "\n"
 if [[ ! -d "$ARTIFACTS"/wwwroot ]]; then
-  #pause "press ENTER to create $ARTIFACTS wwwroot"
+  echo "----------------- Create $ARTIFACTS wwwroot"
   pushd "$SCRIPT_DIR"
   cd ..
   pwd
@@ -236,13 +236,13 @@ fi
 
 printf "\n"
 printf "\n"
-echo "This will delete $DEPLOYMENT_SOURCE/IdentityApplication/___deployTemp"
+echo "----------------- This will delete $DEPLOYMENT_SOURCE/IdentityApplication/___deployTemp"
 #pause "press ENTER"
 rm -rf "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp
 
 printf "\n"
 printf "\n"
-echo "This will run KuduSync - copy files to artifacts/wwwroot"
+echo "----------------- This will run KuduSync - copy files to artifacts/wwwroot"
 #pause "press ENTER"
 
 # KUDU SYNC deployTemp -> artifacts/wwwroot
