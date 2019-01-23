@@ -133,36 +133,11 @@ else
 fi
 
 printf "\n"
-
-if [ ! -f "$DEPLOYMENT_SOURCE/IdentityApplication/IdentityApplication.csproj" ]; then
-  echo "Could not find the csproj"
-else
-  echo "Found csproj: $DEPLOYMENT_SOURCE/IdentityApplication/IdentityApplication.csproj"
-fi
-
-if [ ! -f "$MSBUILD_PATH" ]; then
-  echo "Could not find MSBuild.exe"
-else
-  echo "MSBUILD_PATH: $MSBUILD_PATH"
-fi
-
-# Build to the temporary path
-printf "\n"
-printf "\n"
-echo "------------ Do MSBuild..."
-# Tell MSBuild to build our solution.
-# compiles to /IdentityApplication/IdentityApplication/___deployTemp/_PublishedWebsites
-
-"$MSBUILD_PATH" "IdentityApplication.sln" "/property:Configuration=Release;TargetFramework=v4.5.2;OutputPath=$DEPLOYMENT_TEMP"
-
-#"$MSBUILD_PATH" "IdentityApplication.sln" "/t:pipelinePreDeployCopyAllFilesToOneFolder /property:_PackageTempDir=$DEPLOYMENT_TEMP;AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false;TargetFramework=v4.5.2"
-
-
-printf "\n"
 printf "\n"
 
-echo "NPM, BOWER, GRUNT..."
 
+
+echo "------------------------------------------ NPM, BOWER, GRUNT..."
 echo "----------------- Install NPM stuff"
 
 # Go to repo root.
@@ -179,6 +154,8 @@ if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
   cd - > /dev/null
 fi
 
+
+
 echo "----------------- Install bower stuff"
 
 # Install Bower modules
@@ -191,16 +168,46 @@ if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
   cd - > /dev/null
 fi
 
+
+
 echo "----------------- Run grunt tasks"
 
 # Run Grunt Task. This populates Content folder
 if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
   cd "$DEPLOYMENT_SOURCE"
-  #pause "Press [Enter] to run grunt"
   eval ./node_modules/.bin/grunt --no-color --verbose
   exitWithMessageOnError "Grunt failed"
   cd - > /dev/null
 fi
+
+
+
+
+echo "------------ Do MSBuild..."
+
+if [ ! -f "$DEPLOYMENT_SOURCE/IdentityApplication/IdentityApplication.csproj" ]; then
+  echo "Could not find the csproj"
+else
+  echo "Found csproj: $DEPLOYMENT_SOURCE/IdentityApplication/IdentityApplication.csproj"
+fi
+
+if [ ! -f "$MSBUILD_PATH" ]; then
+  echo "Could not find MSBuild.exe"
+else
+  echo "MSBUILD_PATH: $MSBUILD_PATH"
+fi
+
+# Build to the temporary path
+# Tell MSBuild to build our solution.
+# compiles to /IdentityApplication/IdentityApplication/___deployTemp/_PublishedWebsites
+
+"$MSBUILD_PATH" "IdentityApplication.sln" "/property:Configuration=Release;TargetFramework=v4.5.2;OutputPath=$DEPLOYMENT_TEMP"
+
+printf "\n"
+printf "\n"
+
+
+
 
 echo "------------ This will copy Content files to ___deployTemp/_PublishedWebsites/IdentityApplication"
 
@@ -234,16 +241,19 @@ else
   echo "artifacts/wwwroot already exists"
 fi
 
+
+
+
 printf "\n"
 printf "\n"
 echo "----------------- This will delete $DEPLOYMENT_SOURCE/IdentityApplication/___deployTemp"
-#pause "press ENTER"
 rm -rf "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp
+
+
 
 printf "\n"
 printf "\n"
 echo "----------------- This will run KuduSync - copy files to artifacts/wwwroot"
-#pause "press ENTER"
 
 # KUDU SYNC deployTemp -> artifacts/wwwroot
 echo "DEPLOYMENT_SOURCE == $DEPLOYMENT_SOURCE"
