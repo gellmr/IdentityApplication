@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -13,6 +15,7 @@ module.exports = function (grunt) {
         // Compile SASS files into minified CSS.
         sass: {
             options: {
+                implementation: sass,
                 // bootstrap SCSS files to use with @import.
                 // An array of paths that LibSass can look in to attempt to resolve your @import declarations.
                 includePaths: ['bower_components/bootstrap-sass/assets/stylesheets', 'IdentityApplication/scss/include']
