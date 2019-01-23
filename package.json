@@ -1,6 +1,7 @@
 {
   "name": "gellmvc",
   "author": "gellmr",
+  "repository" : { "type": "git", "url": "git://github.com/gellmr/IdentityApplication.git"},
   "version": "0.0.1",
   "engines": {
     "node": "6.9.4"
