@@ -163,7 +163,7 @@ printf "\n"
 
 echo "NPM, BOWER, GRUNT..."
 
-pause "press ENTER to install NPM stuff"
+#pause "press ENTER to install NPM stuff"
 
 # Go to repo root.
 cd "$DEPLOYMENT_SOURCE"
@@ -203,7 +203,7 @@ if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
 fi
 
 echo "This will copy Content files to ___deployTemp/_PublishedWebsites/IdentityApplication"
-pause "press ENTER"
+#pause "press ENTER"
 if [ ! -d "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/_PublishedWebsites/IdentityApplication ]; then
   mkdir -p "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/_PublishedWebsites/IdentityApplication
 fi
@@ -214,7 +214,7 @@ else
 fi
 
 echo "This will copy IdentityApplication/___deployTemp into the Kudu ___deployTemp folder..."
-pause "press ENTER"
+#pause "press ENTER"
 if [ "$HOSTNAME" = "COSYGLOW" ]; then
   cp -R "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/* "$DEPLOYMENT_SOURCE"/___deployTemp/
 fi
@@ -222,7 +222,7 @@ fi
 printf "\n"
 printf "\n"
 if [[ ! -d "$ARTIFACTS"/wwwroot ]]; then
-  pause "press ENTER to create $ARTIFACTS wwwroot"
+  #pause "press ENTER to create $ARTIFACTS wwwroot"
   pushd "$SCRIPT_DIR"
   cd ..
   pwd
@@ -237,13 +237,13 @@ fi
 printf "\n"
 printf "\n"
 echo "This will delete $DEPLOYMENT_SOURCE/IdentityApplication/___deployTemp"
-pause "press ENTER"
+#pause "press ENTER"
 rm -rf "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp
 
 printf "\n"
 printf "\n"
 echo "This will run KuduSync - copy files to artifacts/wwwroot"
-pause "press ENTER"
+#pause "press ENTER"
 
 # KUDU SYNC deployTemp -> artifacts/wwwroot
 echo "DEPLOYMENT_SOURCE == $DEPLOYMENT_SOURCE"
