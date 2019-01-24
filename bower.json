@@ -1,8 +1,8 @@
 {
   "name": "gellmvc-bower",
   "dependencies": {
-    "bootstrap-sass": "~3.3.7",
-    "jquery": "~3.1.1",
-    "Microsoft.jQuery.Unobtrusive.Validation": "~3.2.3"
+    "bootstrap-sass": "3.3.7",
+    "jquery": "3.1.1",
+    "Microsoft.jQuery.Unobtrusive.Validation": "3.2.3"
   }
 }
