@@ -150,8 +150,8 @@ selectNodeVersion
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
   eval $NPM_CMD prune
-  echo "Do npm install --production"
-  eval $NPM_CMD install --production
+  echo "Do npm install"
+  eval $NPM_CMD install
   exitWithMessageOnError "npm install failed"
   cd - > /dev/null
 fi
