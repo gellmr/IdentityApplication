@@ -146,9 +146,7 @@ echo "----------------- Install NPM stuff"
 cd "$DEPLOYMENT_SOURCE"
 selectNodeVersion
 
-rm -rf node_modules/
-npm cache clean
-npm rebuild
+npm cache clean -f
 
 # Install NPM packages
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
