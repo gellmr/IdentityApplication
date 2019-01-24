@@ -167,7 +167,7 @@ echo "----------------- Install bower stuff"
 if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
   
-  eval "$NPM_CMD install bower"
+  eval "npm install -g bower"
   exitWithMessageOnError "failed to install bower"
   
   eval "rm -rf bower_components"
