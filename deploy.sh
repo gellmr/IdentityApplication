@@ -168,7 +168,7 @@ if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
   eval rm -rf bower_components
   echo deleted bower components
-  eval ./node_modules/.bin/bower install
+  eval "./node_modules/.bin/bower install"
   exitWithMessageOnError "bower failed"
   cd - > /dev/null
 fi
