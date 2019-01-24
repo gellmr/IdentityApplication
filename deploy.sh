@@ -146,6 +146,9 @@ echo "----------------- Install NPM stuff"
 cd "$DEPLOYMENT_SOURCE"
 selectNodeVersion
 
+# Try to prevent azure from executing the old version of npm that seems to be on there (npm 1.4.28)
+$NPM_CMD install -g npm@5.6.0
+
 # Install NPM packages
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
