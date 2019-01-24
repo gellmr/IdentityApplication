@@ -167,13 +167,10 @@ echo "----------------- Install bower stuff"
 if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
   
-  eval "npm install -g bower"
-  exitWithMessageOnError "failed to install bower"
-  
   eval "rm -rf bower_components"
   echo "deleted bower components"
   
-  eval "./node_modules/.bin/bower install"
+  eval "bower install"
   exitWithMessageOnError "bower failed"
 
   cd - > /dev/null
