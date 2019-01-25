@@ -150,29 +150,10 @@ selectNodeVersion
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
   cd "$DEPLOYMENT_SOURCE"
   eval $NPM_CMD prune
-  echo "Do npm install"
+  echo "Do npm install (also installs bower using postinstall)"
   eval $NPM_CMD rebuild
   eval $NPM_CMD install
   exitWithMessageOnError "npm install failed"
-  cd - > /dev/null
-fi
-
-
-
-printf "\n"
-printf "\n"
-echo "----------------- Install bower stuff"
-
-# Install Bower modules
-if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
-  cd "$DEPLOYMENT_SOURCE"
-  
-  eval rm -rf bower_components
-  echo "deleted bower components"
-  
-  eval ./node_modules/.bin/bower install
-  exitWithMessageOnError "bower failed"
-
   cd - > /dev/null
 fi
 
