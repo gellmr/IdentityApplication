@@ -1,3 +1,3 @@
 [config]
-project = .
+project = IdentityApplication
 command = bash deploy.sh
