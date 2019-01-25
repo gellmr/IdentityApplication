@@ -25,9 +25,7 @@ https://github.com/coreybutler/nvm-windows
 * Install the required node modules by typing
 `npm install`
 This will install lots of things under: IdentityApplication\node_modules
-
-* Install the required bower modules by typing:
-`bower install`
+The npm postinstall will automatically run bower, creating IdentityApplication\bower_components and installing.
 
 * install grunt by typing
 `npm install -g grunt-cli`
