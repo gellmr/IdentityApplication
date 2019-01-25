@@ -25,5 +25,5 @@
   "devDependencies": {},
   "scripts": {
     "postinstall": "node_modules/.bin/bower install"
-  },
+  }
 }
