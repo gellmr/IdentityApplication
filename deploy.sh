@@ -166,7 +166,7 @@ echo "----------------- Run grunt tasks"
 # Run Grunt Task. This populates Content folder
 if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
   cd "$DEPLOYMENT_SOURCE"
-  eval $NPM_CMD rebuild node-sass --force
+  eval $NPM_CMD rebuild node-sass
   eval ./node_modules/.bin/grunt --no-color --verbose
   exitWithMessageOnError "Grunt failed"
   cd - > /dev/null
