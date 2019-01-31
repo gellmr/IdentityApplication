@@ -89,9 +89,10 @@ fi
 # DEPLOYMENT_TEMP   == temporary folder for storing artifacts for the current build. Deleted after cmd is run.
 # DEPLOYMENT_TARGET == the wwwroot folder, where we want to deploy our files
 
+printf "\n"
 echo "DEPLOYMENT_SOURCE:        $DEPLOYMENT_SOURCE"
 echo "MSBUILD_PATH:             $MSBUILD_PATH"
-echo "DEPLOYMENT_TEMP:          $DEPLOYMENT_TEMP"
+echo "DEPLOYMENT_TEMP:          $(pwd)/$DEPLOYMENT_TEMP"
 echo "DEPLOYMENT_TARGET:        $DEPLOYMENT_TARGET"
 printf "\n"
 echo "BASH_SOURCE[0]:           $BASH_SOURCE[0]"
@@ -99,10 +100,11 @@ echo "SCRIPT_DIR:               $SCRIPT_DIR"
 echo "ARTIFACTS:                $ARTIFACTS"
 echo "KUDU_SYNC_CMD:            $KUDU_SYNC_CMD"
 printf "\n"
-echo "NEXT_MANIFEST_PATH:          $NEXT_MANIFEST_PATH"
-echo "PREVIOUS_MANIFEST_PATH:      $PREVIOUS_MANIFEST_PATH"
-echo "KUDU_SERVICE:                $KUDU_SERVICE"
+echo "NEXT_MANIFEST_PATH:       $NEXT_MANIFEST_PATH"
+echo "PREVIOUS_MANIFEST_PATH:   $PREVIOUS_MANIFEST_PATH"
+echo "KUDU_SERVICE:             $KUDU_SERVICE"
 echo "CLEAN_LOCAL_DEPLOYMENT_TEMP: $CLEAN_LOCAL_DEPLOYMENT_TEMP"
+printf "\n"
 
 ##################################################################################################################################
 # Deployment
@@ -110,10 +112,10 @@ echo "CLEAN_LOCAL_DEPLOYMENT_TEMP: $CLEAN_LOCAL_DEPLOYMENT_TEMP"
 
 if [[ -n "$CLEAN_LOCAL_DEPLOYMENT_TEMP" ]]; then
   if [ -d "$DEPLOYMENT_TEMP" ]; then
-    echo "Removing DEPLOYMENT_TEMP $DEPLOYMENT_TEMP"
+    echo "Removing $(pwd)/$DEPLOYMENT_TEMP"
     rm -rf "$DEPLOYMENT_TEMP"
   fi
-  echo "Creating DEPLOYMENT_TEMP $DEPLOYMENT_TEMP"
+  echo "Creating $(pwd)/$DEPLOYMENT_TEMP"
   mkdir "$DEPLOYMENT_TEMP"
 fi
 
