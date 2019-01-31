@@ -51,14 +51,21 @@ selectNodeVersion () {
 hash node 2>/dev/null
 exitWithMessageOnError "Missing node.js executable, please install node.js, if already installed make sure it can be reached from current environment."
 
+# On azure this is the repository directory.
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# On azure this is one level up from the repository directory. For some reason it created a wwwroot folder inside.
 ARTIFACTS=$SCRIPT_DIR/../artifacts
+
+# On azure this is just 'kudusync'
 KUDU_SYNC_CMD=${KUDU_SYNC_CMD}
 
+# On azure this is just the repository directory.
 if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
   DEPLOYMENT_SOURCE=$SCRIPT_DIR
 fi
 
+# On azure this is like "D:/home/site/deployments/bighashvalue/manifest" and when i tried to look inside the manifest folder it said 'The directory name is invalid'
 if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
   NEXT_MANIFEST_PATH=$ARTIFACTS/manifest
   if [[ ! -n "$PREVIOUS_MANIFEST_PATH" ]]; then
@@ -66,17 +73,22 @@ if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
   fi
 fi
 
+# On azure this is D:/home/site/wwwroot
 if [[ ! -n "$DEPLOYMENT_TARGET" ]]; then
+  # I think we are creating a wwwroot folder under artifacts, and we are later going to use the kudusync command
+  # to perform a smart-copy of the contents from here to the live wwwroot folder.
   DEPLOYMENT_TARGET=$ARTIFACTS/wwwroot
 else
   KUDU_SERVICE=true
 fi
 
+# On azure this is like "D:/local/Temp/hashvalue" and it gets deleted
 if [[ ! -n "$DEPLOYMENT_TEMP" ]]; then
   DEPLOYMENT_TEMP=$temp\___deployTemp$random
-  CLEAN_LOCAL_DEPLOYMENT_TEMP=true
+  CLEAN_LOCAL_DEPLOYMENT_TEMP=false # TODO: make this true once I get the build script working.
 fi
 
+# On azure this is like "D:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
 if [[ ! -n "$MSBUILD_PATH" ]]; then
   # location on my machine...
   MSBUILD_PATH="/c/Program Files/MSBuild/14.0/Bin/MSBuild.exe"
@@ -92,7 +104,7 @@ fi
 printf "\n"
 echo "DEPLOYMENT_SOURCE:        $DEPLOYMENT_SOURCE"
 echo "MSBUILD_PATH:             $MSBUILD_PATH"
-echo "DEPLOYMENT_TEMP:          $(pwd)/$DEPLOYMENT_TEMP"
+echo "DEPLOYMENT_TEMP:          $DEPLOYMENT_TEMP"
 echo "DEPLOYMENT_TARGET:        $DEPLOYMENT_TARGET"
 printf "\n"
 echo "BASH_SOURCE[0]:           $BASH_SOURCE[0]"
@@ -112,10 +124,10 @@ printf "\n"
 
 if [[ -n "$CLEAN_LOCAL_DEPLOYMENT_TEMP" ]]; then
   if [ -d "$DEPLOYMENT_TEMP" ]; then
-    echo "Removing $(pwd)/$DEPLOYMENT_TEMP"
+    echo "Removing $DEPLOYMENT_TEMP"
     rm -rf "$DEPLOYMENT_TEMP"
   fi
-  echo "Creating $(pwd)/$DEPLOYMENT_TEMP"
+  echo "Creating $DEPLOYMENT_TEMP"
   mkdir "$DEPLOYMENT_TEMP"
 fi
 
