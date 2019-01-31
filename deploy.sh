@@ -2,11 +2,8 @@
 
 # ----------------------
 # KUDU Deployment Script
-# Version: 0.2.2
+# Version: 0.2.2 (but I have modified it.)
 # ----------------------
-
-# Helpers
-# -------
 
 pause() {
   if [ "$HOSTNAME" = "COSYGLOW" ]; then
@@ -22,73 +19,6 @@ exitWithMessageOnError () {
     exit 1
   fi
 }
-
-# Prerequisites
-# -------------
-
-# Verify node.js installed
-hash node 2>/dev/null
-exitWithMessageOnError "Missing node.js executable, please install node.js, if already installed make sure it can be reached from current environment."
-
-# Setup
-# -----
-
-# see https://github.com/projectkudu/kudu/wiki/Deployment-hooks
-# pwd is initially the root of the repo when batch file is executing.
-# DEPLOYMENT_SOURCE == the root of the repo
-# DEPLOYMENT_TARGET == the wwwroot folder
-# DEPLOYMENT_TEMP   == temporary folder for storing artifacts for the current build. Deleted after cmd is run.
-# MSBUILD_PATH      == Path to msbuild executable
-
-#SCRIPT_DIR="${BASH_SOURCE[0]%\\*}"
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "SCRIPT_DIR: $SCRIPT_DIR"
-
-#SCRIPT_DIR="${SCRIPT_DIR%/*}"
-#echo "SCRIPT_DIR: $SCRIPT_DIR"
-
-ARTIFACTS=$SCRIPT_DIR/../artifacts
-KUDU_SYNC_CMD=${KUDU_SYNC_CMD}
-
-if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
-  DEPLOYMENT_SOURCE=$SCRIPT_DIR
-fi
-
-if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
-  NEXT_MANIFEST_PATH=$ARTIFACTS/manifest
-
-  if [[ ! -n "$PREVIOUS_MANIFEST_PATH" ]]; then
-    PREVIOUS_MANIFEST_PATH=$NEXT_MANIFEST_PATH
-  fi
-fi
-
-if [[ ! -n "$DEPLOYMENT_TARGET" ]]; then
-  DEPLOYMENT_TARGET=$ARTIFACTS/wwwroot
-else
-  KUDU_SERVICE=true
-fi
-
-if [[ ! -n "$DEPLOYMENT_TEMP" ]]; then
-  DEPLOYMENT_TEMP=$temp\___deployTemp$random
-  CLEAN_LOCAL_DEPLOYMENT_TEMP=true
-fi
-
-if [[ -n "$CLEAN_LOCAL_DEPLOYMENT_TEMP" ]]; then
-  if [ -d "$DEPLOYMENT_TEMP" ]; then
-    rm -rf "$DEPLOYMENT_TEMP"
-  fi
-  mkdir "$DEPLOYMENT_TEMP"
-fi
-
-echo "------------ DEPLOYMENT_TEMP: $DEPLOYMENT_TEMP"
-
-if [[ ! -n "$MSBUILD_PATH" ]]; then
-  # location on my machine...
-  MSBUILD_PATH="/c/Program Files/MSBuild/14.0/Bin/MSBuild.exe"
-fi
-
-# Node Helpers
-# ------------
 
 selectNodeVersion () {
   if [[ -n "$KUDU_SELECT_NODE_VERSION_CMD" ]]; then
@@ -117,9 +47,75 @@ selectNodeVersion () {
   fi
 }
 
+# Verify node.js installed
+hash node 2>/dev/null
+exitWithMessageOnError "Missing node.js executable, please install node.js, if already installed make sure it can be reached from current environment."
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ARTIFACTS=$SCRIPT_DIR/../artifacts
+KUDU_SYNC_CMD=${KUDU_SYNC_CMD}
+
+if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
+  DEPLOYMENT_SOURCE=$SCRIPT_DIR
+fi
+
+if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
+  NEXT_MANIFEST_PATH=$ARTIFACTS/manifest
+  if [[ ! -n "$PREVIOUS_MANIFEST_PATH" ]]; then
+    PREVIOUS_MANIFEST_PATH=$NEXT_MANIFEST_PATH
+  fi
+fi
+
+if [[ ! -n "$DEPLOYMENT_TARGET" ]]; then
+  DEPLOYMENT_TARGET=$ARTIFACTS/wwwroot
+else
+  KUDU_SERVICE=true
+fi
+
+if [[ ! -n "$DEPLOYMENT_TEMP" ]]; then
+  DEPLOYMENT_TEMP=$temp\___deployTemp$random
+  CLEAN_LOCAL_DEPLOYMENT_TEMP=true
+fi
+
+if [[ ! -n "$MSBUILD_PATH" ]]; then
+  # location on my machine...
+  MSBUILD_PATH="/c/Program Files/MSBuild/14.0/Bin/MSBuild.exe"
+fi
+
+# see https://github.com/projectkudu/kudu/wiki/Deployment-hooks
+# pwd is initially the root of the repo when batch file is executing.
+# DEPLOYMENT_SOURCE == the root of the repo on azure, which receives our files when we go 'git push azure master'
+# MSBUILD_PATH      == Path to msbuild executable
+# DEPLOYMENT_TEMP   == temporary folder for storing artifacts for the current build. Deleted after cmd is run.
+# DEPLOYMENT_TARGET == the wwwroot folder, where we want to deploy our files
+
+echo "DEPLOYMENT_SOURCE:        $DEPLOYMENT_SOURCE"
+echo "MSBUILD_PATH:             $MSBUILD_PATH"
+echo "DEPLOYMENT_TEMP:          $DEPLOYMENT_TEMP"
+echo "DEPLOYMENT_TARGET:        $DEPLOYMENT_TARGET"
+printf "\n"
+echo "BASH_SOURCE[0]:           $BASH_SOURCE[0]"
+echo "SCRIPT_DIR:               $SCRIPT_DIR"
+echo "ARTIFACTS:                $ARTIFACTS"
+echo "KUDU_SYNC_CMD:            $KUDU_SYNC_CMD"
+printf "\n"
+echo "NEXT_MANIFEST_PATH:          $NEXT_MANIFEST_PATH"
+echo "PREVIOUS_MANIFEST_PATH:      $PREVIOUS_MANIFEST_PATH"
+echo "KUDU_SERVICE:                $KUDU_SERVICE"
+echo "CLEAN_LOCAL_DEPLOYMENT_TEMP: $CLEAN_LOCAL_DEPLOYMENT_TEMP"
+
 ##################################################################################################################################
 # Deployment
 # ----------
+
+if [[ -n "$CLEAN_LOCAL_DEPLOYMENT_TEMP" ]]; then
+  if [ -d "$DEPLOYMENT_TEMP" ]; then
+    echo "Removing DEPLOYMENT_TEMP $DEPLOYMENT_TEMP"
+    rm -rf "$DEPLOYMENT_TEMP"
+  fi
+  echo "Creating DEPLOYMENT_TEMP $DEPLOYMENT_TEMP"
+  mkdir "$DEPLOYMENT_TEMP"
+fi
 
 printf "\n"
 printf "\n"
@@ -134,8 +130,6 @@ fi
 
 printf "\n"
 printf "\n"
-
-
 
 echo "------------------------------------------ NPM, BOWER, GRUNT..."
 printf "\n"
@@ -197,11 +191,6 @@ fi
 printf "\n"
 printf "\n"
 
-
-
-
-echo "------------ This will copy Content files to ___deployTemp/_PublishedWebsites/IdentityApplication"
-
 if [ ! -d "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/_PublishedWebsites/IdentityApplication ]; then
   mkdir -p "$DEPLOYMENT_SOURCE"/IdentityApplication/___deployTemp/_PublishedWebsites/IdentityApplication
 fi
@@ -228,8 +217,6 @@ if [[ ! -d "$ARTIFACTS"/wwwroot ]]; then
   cd "$ARTIFACTS"
   mkdir "wwwroot"
   popd
-else
-  echo "artifacts/wwwroot already exists"
 fi
 
 
