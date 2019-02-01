@@ -80,6 +80,7 @@
     <Compile Include="Entities\OrderedProduct.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\UserAddress.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
