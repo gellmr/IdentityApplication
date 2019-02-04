@@ -125,6 +125,16 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
+:: run bower install and grunt
+IF EXIST "%DEPLOYMENT_TARGET%\Gruntfile.js" (
+  pushd "%DEPLOYMENT_TARGET%"
+  bower install
+  grunt
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
+
+
 :: 3. Build to the temporary path
 echo ----------------------------
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
