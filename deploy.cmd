@@ -107,49 +107,34 @@ goto :EOF
 
 echo Begin deployment steps...
 
-:: 1. Restore NuGet packages
+:: everything is in D:/home/site/repository
+
+:: Restore NuGet packages
 IF /I "IdentityApplication.sln" NEQ "" (
   :: Pulls all the nuget packages into the repo directory
   call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\IdentityApplication.sln"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
+:: D:/home/site/repository/packages is now restored.
 
-:: 2. Select node version
-call :SelectNodeVersion
-
-:: 3. Install npm packages
-IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
-  pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd !NPM_CMD! install --production
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
-
-:: run bower install and grunt
-IF EXIST "%DEPLOYMENT_TARGET%\Gruntfile.js" (
-  pushd "%DEPLOYMENT_TARGET%"
-  bower install
-  grunt
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
-
-
-:: 3. Build to the temporary path
 echo ----------------------------
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   :: MSBuild to temporary location. Copies all the files listed in .sln and .csproj
   echo "MSBuild..."
   call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\IdentityApplication\IdentityApplication.csproj" /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%" %SCM_BUILD_ARGS%
 ) ELSE (
-  :: im not using this one.
   echo "MSBuild (in place)..."
   call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\IdentityApplication\IdentityApplication.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%" %SCM_BUILD_ARGS%
 )
-
 IF !ERRORLEVEL! NEQ 0 goto error
+:: finished MSBuilding to D:\local\Temp\somehashvalue
 
-:: 4 Copy my required folders that were not part of the visual studio project or build process
+:: KuduSync those files into the wwwroot directory
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+IF !ERRORLEVEL! NEQ 0 goto error
+:: MSBuild results are now installed to wwwroot
+
+:: Copy required folders that were not part of the visual studio project or build process
 echo ----------------------------
 Robocopy /MIR "%DEPLOYMENT_SOURCE%\node_modules" "%DEPLOYMENT_TARGET%\node_modules"
 Robocopy /MIR "%DEPLOYMENT_SOURCE%\bower_components" "%DEPLOYMENT_TARGET%\bower_components"
@@ -157,9 +142,16 @@ Robocopy /MIR "%DEPLOYMENT_SOURCE%\IdentityApplication\Content" "%DEPLOYMENT_TAR
 Robocopy /MIR "%DEPLOYMENT_SOURCE%\IdentityApplication\Scripts" "%DEPLOYMENT_TARGET%\Scripts"
 ::Robocopy /MIR "%DEPLOYMENT_SOURCE%\App_Data" "%DEPLOYMENT_TARGET%\App_Data"
 
+:: go to the wwwroot directory and finish building...
+cd "%DEPLOYMENT_TARGET%"
 
-:: 5. KuduSync
-call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+:: Select node version
+call :SelectNodeVersion
+
+:: npm, bower, grunt
+:ExecuteCmd !NPM_CMD! install
+bower install
+grunt
 IF !ERRORLEVEL! NEQ 0 goto error
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
