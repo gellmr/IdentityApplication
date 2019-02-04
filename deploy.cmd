@@ -135,13 +135,19 @@ echo Begin deployment steps...
 
 :: everything is in D:/home/site/repository
 
-:: Select node version
 call :SelectNodeVersion
 
-:: npm install, bower install, grunt
+echo "running npm install..."
 call :ExecuteCmd !NPM_CMD! install
+IF !ERRORLEVEL! NEQ 0 goto error
+
+echo "running bower install..."
 call :ExecuteCmd %bower install%
+IF !ERRORLEVEL! NEQ 0 goto error
+
+echo "running grunt..."
 call :ExecuteCmd %grunt%
+echo "(finished running grunt)"
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: Restore NuGet packages
