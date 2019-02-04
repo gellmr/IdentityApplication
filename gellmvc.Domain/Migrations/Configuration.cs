@@ -23,7 +23,7 @@ namespace gellmvc.Migrations
       //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
       //  to avoid creating duplicate seed data.
 
-      IList<Product> products = new List<Product>();
+      List<Product> products = new List<Product>();
 
       products.Add(new Product()
       {
@@ -317,7 +317,21 @@ namespace gellmvc.Migrations
         CreatedAt = System.DateTime.Now
       });
 
-      context.Products.AddRange(products);
+      // Add if product does not already exist
+      foreach(Product product in products)
+      {
+        var prodInDatabase = context.Products.FirstOrDefault(p => p.ImageUrl.Equals(product.ImageUrl));
+        if (prodInDatabase == null)
+        {
+          if (product.Name.Equals("Metal Gear Motor"))
+          {
+            System.Diagnostics.Debug.WriteLine("Adding...");
+          }
+          context.Products.Add(product);
+        }
+      }
+      context.SaveChanges();
+
       base.Seed(context);
     }
   }
