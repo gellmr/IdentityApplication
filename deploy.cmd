@@ -25,16 +25,42 @@ SET ARTIFACTS=%~dp0%..\artifacts
 IF NOT DEFINED DEPLOYMENT_SOURCE (
   SET DEPLOYMENT_SOURCE=%~dp0%.
 )
-
 IF NOT DEFINED DEPLOYMENT_TARGET (
   SET DEPLOYMENT_TARGET=%ARTIFACTS%\wwwroot
 )
 
 IF NOT DEFINED NEXT_MANIFEST_PATH (
   SET NEXT_MANIFEST_PATH=%ARTIFACTS%\manifest
-
   IF NOT DEFINED PREVIOUS_MANIFEST_PATH (
     SET PREVIOUS_MANIFEST_PATH=%ARTIFACTS%\manifest
+  )
+)
+
+IF NOT DEFINED NEXT_MANIFEST_PATH_NODE (
+  SET NEXT_MANIFEST_PATH_NODE=%ARTIFACTS%\manifest-node
+  IF NOT DEFINED PREVIOUS_MANIFEST_PATH_NODE (
+    SET PREVIOUS_MANIFEST_PATH_NODE=%ARTIFACTS%\manifest-node
+  )
+)
+
+IF NOT DEFINED NEXT_MANIFEST_PATH_BOWER (
+  SET NEXT_MANIFEST_PATH_BOWER=%ARTIFACTS%\manifest-bower
+  IF NOT DEFINED PREVIOUS_MANIFEST_PATH_BOWER (
+    SET PREVIOUS_MANIFEST_PATH_BOWER=%ARTIFACTS%\manifest-bower
+  )
+)
+
+IF NOT DEFINED NEXT_MANIFEST_PATH_CONTENT (
+  SET NEXT_MANIFEST_PATH_CONTENT=%ARTIFACTS%\manifest-content
+  IF NOT DEFINED PREVIOUS_MANIFEST_PATH_CONTENT (
+    SET PREVIOUS_MANIFEST_PATH_CONTENT=%ARTIFACTS%\manifest-content
+  )
+)
+
+IF NOT DEFINED NEXT_MANIFEST_PATH_SCRIPTS (
+  SET NEXT_MANIFEST_PATH_SCRIPTS=%ARTIFACTS%\manifest-scripts
+  IF NOT DEFINED PREVIOUS_MANIFEST_PATH_SCRIPTS (
+    SET PREVIOUS_MANIFEST_PATH_SCRIPTS=%ARTIFACTS%\manifest-scripts
   )
 )
 
@@ -109,13 +135,21 @@ echo Begin deployment steps...
 
 :: everything is in D:/home/site/repository
 
+:: Select node version
+call :SelectNodeVersion
+
+:: npm install, bower install, grunt
+call :ExecuteCmd !NPM_CMD! install
+call :ExecuteCmd %bower install%
+call :ExecuteCmd %grunt%
+IF !ERRORLEVEL! NEQ 0 goto error
+
 :: Restore NuGet packages
 IF /I "IdentityApplication.sln" NEQ "" (
   :: Pulls all the nuget packages into the repo directory
   call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\IdentityApplication.sln"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
-:: D:/home/site/repository/packages is now restored.
 
 echo ----------------------------
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
@@ -129,30 +163,29 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 IF !ERRORLEVEL! NEQ 0 goto error
 :: finished MSBuilding to D:\local\Temp\somehashvalue
 
-:: KuduSync those files into the wwwroot directory
+:: KuduSync the MSBuild results from D:\local\Temp\somehashvalue to wwwroot.
 call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
 IF !ERRORLEVEL! NEQ 0 goto error
 :: MSBuild results are now installed to wwwroot
 
-:: Copy required folders that were not part of the visual studio project or build process
+:: Now KuduSync the npm, bower, and grunt results, from repository to wwwroot.
 echo ----------------------------
-Robocopy /MIR "%DEPLOYMENT_SOURCE%\node_modules" "%DEPLOYMENT_TARGET%\node_modules"
-Robocopy /MIR "%DEPLOYMENT_SOURCE%\bower_components" "%DEPLOYMENT_TARGET%\bower_components"
-Robocopy /MIR "%DEPLOYMENT_SOURCE%\IdentityApplication\Content" "%DEPLOYMENT_TARGET%\Content"
-Robocopy /MIR "%DEPLOYMENT_SOURCE%\IdentityApplication\Scripts" "%DEPLOYMENT_TARGET%\Scripts"
-::Robocopy /MIR "%DEPLOYMENT_SOURCE%\App_Data" "%DEPLOYMENT_TARGET%\App_Data"
-
-:: go to the wwwroot directory and finish building...
-cd "%DEPLOYMENT_TARGET%"
-
-:: Select node version
-call :SelectNodeVersion
-
-:: npm, bower, grunt
-:ExecuteCmd !NPM_CMD! install
-bower install
-grunt
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\node_modules" -t "%DEPLOYMENT_TARGET%\node_modules" -n "%NEXT_MANIFEST_PATH_NODE%" -p "%PREVIOUS_MANIFEST_PATH_NODE%" -i ".git;.hg;.deployment;deploy.cmd"
 IF !ERRORLEVEL! NEQ 0 goto error
+
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\bower_components" -t "%DEPLOYMENT_TARGET%\bower_components" -n "%NEXT_MANIFEST_PATH_BOWER%" -p "%PREVIOUS_MANIFEST_PATH_BOWER%" -i ".git;.hg;.deployment;deploy.cmd"
+IF !ERRORLEVEL! NEQ 0 goto error
+
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\IdentityApplication\Content" -t "%DEPLOYMENT_TARGET%\Content" -n "%NEXT_MANIFEST_PATH_CONTENT%" -p "%PREVIOUS_MANIFEST_PATH_CONTENT%" -i ".git;.hg;.deployment;deploy.cmd"
+IF !ERRORLEVEL! NEQ 0 goto error
+
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\IdentityApplication\Scripts" -t "%DEPLOYMENT_TARGET%\Scripts" -n "%NEXT_MANIFEST_PATH_SCRIPTS%" -p "%PREVIOUS_MANIFEST_PATH_SCRIPTS%" -i ".git;.hg;.deployment;deploy.cmd"
+IF !ERRORLEVEL! NEQ 0 goto error
+
+::Robocopy /np /nfl /MIR "%DEPLOYMENT_SOURCE%\node_modules" "%DEPLOYMENT_TARGET%\node_modules"
+::Robocopy /np /nfl /MIR "%DEPLOYMENT_SOURCE%\bower_components" "%DEPLOYMENT_TARGET%\bower_components"
+::Robocopy /np /nfl /MIR "%DEPLOYMENT_SOURCE%\IdentityApplication\Content" "%DEPLOYMENT_TARGET%\Content"
+::Robocopy /np /nfl /MIR "%DEPLOYMENT_SOURCE%\IdentityApplication\Scripts" "%DEPLOYMENT_TARGET%\Scripts"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
