@@ -80,6 +80,10 @@
     <Compile Include="Entities\OrderedProduct.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\UserAddress.cs" />
+    <Compile Include="Migrations\201902040425209_InitialCreate.cs" />
+    <Compile Include="Migrations\201902040425209_InitialCreate.Designer.cs">
+      <DependentUpon>201902040425209_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -87,6 +91,10 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201902040425209_InitialCreate.resx">
+      <DependentUpon>201902040425209_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,7 +21,7 @@ namespace IdentityApplication.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("EFDbContext", throwIfV1Schema: false)
         {
         }
 

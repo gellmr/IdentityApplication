@@ -10,7 +10,7 @@ namespace gellmvc.Domain.Concrete
 
     public EFDbContext(): base()
     {
-      Database.SetInitializer(new MigrateDatabaseToLatestVersion<EFDbContext, Migrations.Configuration>());
+      Database.SetInitializer(new MigrateDatabaseToLatestVersion<EFDbContext, gellmvc.Migrations.Configuration>());
     }
 
     public DbSet<Product> Products { get; set; }
