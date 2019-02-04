@@ -19,8 +19,6 @@ namespace gellmvc.Controllers
     protected IUserAddressRepository m_userAddressRepo;
     protected IOrderRepository m_orderRepo;
 
-    private bool m_gotAddressesInDatabase = false;
-    private IEnumerable<Domain.Entities.UserAddress> m_addressesInDatabase;
     private string m_userId;
 
     public OrderController(IUserAddressRepository userAddyRepo, IOrderRepository orderRepo){
