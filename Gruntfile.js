@@ -6,9 +6,7 @@ module.exports = function (grunt) {
         
         clean: {
             Content: [
-            'IdentityApplication/Content/**/*',
-            '!IdentityApplication/Content/images/**/*',
-            '!IdentityApplication/Content/images'
+            'IdentityApplication/Content/**/*'
             ]
         },
 
@@ -79,12 +77,13 @@ module.exports = function (grunt) {
                         dest: 'IdentityApplication/Content/fonts/bootstrap/'
                     },
 
-                    // site images.
-                    //{
-                    //    expand: true,
-                    //    src: ['site_images/**'],
-                    //    dest: 'IdentityApplication/Content/'
-                    //},
+                    // Site images.
+                    {
+                        expand: true,
+                        cwd: 'IdentityApplication/',
+                        src: ['images/**'],
+                        dest: 'IdentityApplication/Content/'
+                    }
                 ]
             },
         },
