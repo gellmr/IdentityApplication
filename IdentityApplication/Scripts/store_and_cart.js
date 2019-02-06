@@ -68,6 +68,16 @@
     updateCart(productId, qty, inputElement);
   };
 
+  var removeWelcomeText = function (event) {
+    event.preventDefault();
+    $.ajax({
+      url: "/Store/HideWelcome", type: 'PUT', contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: "",
+      statusCode: { 200: function (jqXHR) { $("#landing-welcome").hide(); } }
+    });
+  };
+
   var hideInCartIcon = function (productId) {
     var parentalDiv = $('div.parentalDiv-' + productId);
     parentalDiv.find('.inCartIcon').hide();
@@ -294,6 +304,12 @@
       removeFromCart
     );
 
+    var result = $('div.top-level-container').on(
+      'click',
+      '#remove-welcome-text',
+      removeWelcomeText
+    );
+    
     $("#AddressFieldsPOS_sameForBilling").on(
       'click',
       toggleBillingPOS

@@ -343,6 +343,7 @@
     <Content Include="Views\Partials\Order\_Summary.cshtml" />
     <Content Include="Views\Partials\Order\_DetailHead.cshtml" />
     <Content Include="Views\Partials\Order\_DetailLine.cshtml" />
+    <Content Include="Views\Store\_x_btn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

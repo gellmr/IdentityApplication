@@ -17,8 +17,18 @@ namespace gellmvc.Controllers
       this.repository = productRepository;
     }
 
+    [HttpPut]
+    [Route("Store/HideWelcome")]
+    public HttpStatusCodeResult HideWelcome()
+    {
+      Session["ShowWelcomeText"] = "false";
+      return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+    }
+    
     private StoreListViewModel GetPageOfProducts(StoreListViewModel model, int page = 1) //(Cart cart, int page = 1, string searchString = "")
     {
+      if (Session["ShowWelcomeText"] == null) { Session["ShowWelcomeText"] = "true"; }
+
       // Cart is stored in the session (readable only on server).
       Cart cart = GetSessionCart();
 
@@ -54,6 +64,8 @@ namespace gellmvc.Controllers
       
       model.Pager = new Pager(repository.Products.Count(), page, PageSize);
       model.ProductLines = productLines;
+      
+      model.ShowWelcomeText = bool.Parse(Session["ShowWelcomeText"].ToString());
       return model;
     }
 

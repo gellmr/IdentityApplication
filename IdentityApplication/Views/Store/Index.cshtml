@@ -10,6 +10,22 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="text-center">
+
+            @{
+              var vis = (Model.ShowWelcomeText) ? "block" : "none";
+            }
+            <div class="row" style="margin-bottom:25px; margin-top:10px;">
+              <h1>Mike Gell Demo</h1>
+              <div class="col-sm-1 hidden-xs"></div>
+              <div class="col-sm-10 col-xs-12 well" id="landing-welcome" style="background-color:white; padding:32px; display: @vis;">
+                @Html.Partial("~/Views/Store/_x_btn.cshtml", Model)
+                <h4 style="line-height: 150%; text-align:justify;">
+                  This is a simulated online store. Click below to add items to your cart. You can place an order without needing to provide payment info.
+                </h4>
+              </div>
+              <div class="col-sm-1 hidden-xs"></div>
+            </div>
+
             <h3>
               Available Products:
             </h3>
