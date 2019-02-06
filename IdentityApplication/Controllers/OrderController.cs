@@ -123,7 +123,14 @@ namespace gellmvc.Controllers
           bill = billMatch; // use the one already in the database.
         }
         else{
-          bill = m_userAddressRepo.CreateAddress(bill); // Create in database.
+          if (model.AddressFieldsPOS.sameForBilling == false) // Avoid creating a duplicate of the shipping address
+          { 
+            bill = m_userAddressRepo.CreateAddress(bill); // Create in database.
+          }
+          else
+          {
+            bill = ship;
+          }
         }
       }
 
