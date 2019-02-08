@@ -20,7 +20,7 @@
 
   <div class="navbar navbar-inverse navbar-fixed-top">
 
-    <div class="visible-xs" style="position:absolute; width:200px; top:-7px; height: 55px; color: #f9f9f9; z-index:999999999; padding-top: 15px;"><img src="~/Content/Images/siteLogo.png" style="height:38px;" /></div>
+    <div class="visible-xs" style="position:absolute; width:200px; top:-7px; height: 55px; color: #f9f9f9; z-index:999999999; padding-top: 15px;"><a href="/"><img src="~/Content/Images/siteLogo.png" style="height:38px;" /></a></div>
 
     <div class="container">
       <div class="navbar-header">
@@ -32,7 +32,12 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="hidden-xs"><img src="~/Content/Images/siteLogo.png" style="height:38px; margin-top:4px;" /></li>
+
+          <li class="hidden-xs">
+            <a href="/" id="hidden-xs-siteLogo-anchor">
+              <img src="~/Content/Images/siteLogo.png" style="height:38px; margin-top:4px;" />
+            </a>
+          </li>
 
           <li>@Html.ActionLink("Shop for Gadgets", "Index", "Store")</li>
           <li>@Html.ActionLink("My Cart", "Index", "Cart")</li>

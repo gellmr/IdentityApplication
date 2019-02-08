@@ -2,6 +2,13 @@
 Content of navbar.scss
 */
 
+#hidden-xs-siteLogo-anchor{
+  display: inline;
+  padding: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .mg-site-title {
   display:inline-block;
   max-width: 260px;
