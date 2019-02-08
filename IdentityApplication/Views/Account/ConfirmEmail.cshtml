@@ -2,9 +2,11 @@
     ViewBag.Title = "Your Account has been Activated";
 }
 
-<h2>@ViewBag.Title</h2>
-<div>
-    <p>
-        Thanks for confirming your email address. Please @Html.ActionLink("click here to log in.", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+<div class="container top-level-container">
+  <h2 class="text-center">@ViewBag.Title</h2>
+  <div>
+    <p class="text-center">
+      Thanks for confirming your email address. Please @Html.ActionLink("click here to log in.", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </p>
+  </div>
 </div>
