@@ -19,6 +19,9 @@
 <body>
 
   <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <div class="visible-xs" style="position:absolute; width:200px; top:-7px; height: 55px; color: #f9f9f9; z-index:999999999; padding-top: 15px;"><img src="~/Content/Images/siteLogo.png" style="height:38px;" /></div>
+
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -30,6 +33,7 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="hidden-xs"><img src="~/Content/Images/siteLogo.png" style="height:38px; margin-top:4px;" /></li>
+
           <li>@Html.ActionLink("Shop for Gadgets", "Index", "Store")</li>
           <li>@Html.ActionLink("My Cart", "Index", "Cart")</li>
           @if (Request.IsAuthenticated)
