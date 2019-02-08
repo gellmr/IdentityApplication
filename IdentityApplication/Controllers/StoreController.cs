@@ -32,6 +32,7 @@ namespace gellmvc.Controllers
       // Cart is stored in the session (readable only on server).
       Cart cart = GetSessionCart();
 
+      if (model.SearchString == null) { model.SearchString = ""; }
       string searchString = model.SearchString.ToLower();
 
       IEnumerable<Product> pageOfProducts;
