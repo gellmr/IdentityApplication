@@ -146,7 +146,7 @@ call :ExecuteCmd %bower install%
 IF !ERRORLEVEL! NEQ 0 goto error
 
 echo "running grunt..."
-grunt --verbose
+call :ExecuteCmd grunt
 echo "(finished running grunt)"
 IF !ERRORLEVEL! NEQ 0 goto error
 
