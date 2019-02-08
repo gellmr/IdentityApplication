@@ -309,7 +309,11 @@
       '#remove-welcome-text',
       removeWelcomeText
     );
-    
+
+    $("#btn-reviewing-your-order").on('click', function (e) {
+      e.preventDefault();
+    });
+
     $("#AddressFieldsPOS_sameForBilling").on(
       'click',
       toggleBillingPOS

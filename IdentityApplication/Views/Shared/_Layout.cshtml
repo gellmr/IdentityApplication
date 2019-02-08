@@ -51,11 +51,12 @@
     </div>
   </div>
 
-  <div class="container top-level-container">
-    <a href="#pagetop"></a>
+  <a href="#pagetop"></a>
+
+  <div style="padding: 10px; padding-top:5px;">
     @Html.Partial("~/Views/Partials/_FlashMessage.cshtml")
-    @RenderBody()
   </div>
+  @RenderBody()
 
   @RenderSection("scripts", required: false)
 </body>

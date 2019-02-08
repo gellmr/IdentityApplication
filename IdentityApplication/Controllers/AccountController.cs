@@ -95,6 +95,7 @@ namespace IdentityApplication.Controllers
       {
         case SignInStatus.Success:
           //TempData.Keep();
+          TempData["flashSuccess"] = "Successfully logged in as " + user.UserName;
           return RedirectToLocal(returnUrl);
         case SignInStatus.LockedOut:
           return View("Lockout");
@@ -366,6 +367,7 @@ namespace IdentityApplication.Controllers
       switch (result)
       {
         case SignInStatus.Success:
+          TempData["flashSuccess"] = "Successfully logged in as " + loginInfo.Email;
           return RedirectToLocal(returnUrl);
         case SignInStatus.LockedOut:
           return View("Lockout");
@@ -408,6 +410,7 @@ namespace IdentityApplication.Controllers
           if (result.Succeeded)
           {
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            TempData["flashSuccess"] = "Successfully logged in as " + user.UserName;
             return RedirectToLocal(returnUrl);
           }
         }

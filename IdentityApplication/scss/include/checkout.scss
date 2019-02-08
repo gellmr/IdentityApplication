@@ -18,3 +18,10 @@ div.checkout-table .tiny-font{
     font-size: 9px;
   }
 }
+
+a#btn-reviewing-your-order {
+  display: inline-block;
+  @media screen and (max-width: 510px) {
+    display: none;
+  }
+}

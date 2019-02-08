@@ -8,114 +8,119 @@
   https://msdn.microsoft.com/en-us/magazine/hh781022.aspx
 *@
 
-@using (Html.BeginForm("SubmitCart", "Cart"))
-{
-  <input type="hidden" id="page-location" name="page-location" value="cart">
+<div class="container top-level-container">
 
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="centeredProducts">
+  @using (Html.BeginForm("SubmitCart", "Cart"))
+  {
+    <input type="hidden" id="page-location" name="page-location" value="cart">
 
-        <div class="alert alert-warning" id="serverError" style="display:none;">
-          There was a server error.
-        </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="centeredProducts">
 
-        <div class="row">
-
-          @{
-            var cartEmpty = (Model.ReadOnlyCart.Lines.Count() == 0);
-            var cartIsEmptyTagDisplayMode = "display: none;";
-            var yourCartTagDisplayMode    = "display: block;";
-            if (cartEmpty == true){
-              cartIsEmptyTagDisplayMode = "display: block;";
-              yourCartTagDisplayMode = "display: none;";
-            }
-          }
-
-          @* small *@
-          <div class="col-sm-12 hidden-xs">
-            <div class="text-center">
-              <h3 class="content-heading">
-                <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
-                <div class="cart-is-empty-msg" style="@cartIsEmptyTagDisplayMode"><h4>Your cart is empty!</h4></div>
-                <span class="in-your-cart-msg" style="@yourCartTagDisplayMode">In Your Cart:</span>
-              </h3>
-            </div>
+          <div class="alert alert-warning" id="serverError" style="display:none;">
+            There was a server error.
           </div>
 
-          @* xtra small *@
-          <div class="col-xs-12 visible-xs">
-            <div class="row">
-              <div class="col-xs-5" style='margin-top:15px'>
-                <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
-              </div>
-              <div class="col-xs-7">
-                <h3 style="font-size: 20px; padding-top:20px;">
-                  <div class="cart-is-empty-msg" style="@cartIsEmptyTagDisplayMode"><span>Your cart is empty!</span></div>
+          <div class="row">
+
+            @{
+              var cartEmpty = (Model.ReadOnlyCart.Lines.Count() == 0);
+              var cartIsEmptyTagDisplayMode = "display: none;";
+              var yourCartTagDisplayMode = "display: block;";
+              if (cartEmpty == true)
+              {
+                cartIsEmptyTagDisplayMode = "display: block;";
+                yourCartTagDisplayMode = "display: none;";
+              }
+            }
+
+            @* small *@
+            <div class="col-sm-12 hidden-xs">
+              <div class="text-center">
+                <h3 class="content-heading">
+                  <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
+                  <div class="cart-is-empty-msg" style="@cartIsEmptyTagDisplayMode"><h4>Your cart is empty!</h4></div>
                   <span class="in-your-cart-msg" style="@yourCartTagDisplayMode">In Your Cart:</span>
                 </h3>
               </div>
             </div>
-          </div>
-        </div>
 
-        @if (Model.ReadOnlyCart.Lines.Count() == 0)
-        {
-          <hr style="margin-bottom:5px;" />
-          @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
-          <hr style="margin-top:5px;"/>
-        }
-        else
-        {
-
-          //cart has items
-          <div class="row content-header-row">
-            <div class="col-xs-6">
+            @* xtra small *@
+            <div class="col-xs-12 visible-xs">
               <div class="row">
-                @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
-              </div>
-            </div>
-
-            <div class="col-xs-6">
-              <div class="row">
-                <div class="pull-right">
-                  @Html.ActionLink("Clear My Cart", "ClearCart", "Cart", new {
-                    @id = "clearMyCartBtn",
-                    @class = (Model.ReadOnlyCart.Lines.Count() > 0) ? "btn btn-default content-header-btn" : "btn btn-default content-header-btn disabled"
-                  })
+                <div class="col-xs-5" style='margin-top:15px'>
+                  <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
                 </div>
-              </div>
-            </div>
-          </div>
-
-          foreach (var line in Model.ProductLines)
-          {
-            @Html.Partial("~/Views/Partials/Shopping/Cart/_CartLine.cshtml", line)
-          }
-
-          @Html.Partial("~/Views/Partials/Shopping/_SummaryRow.cshtml")
-
-          if (Model.ReadOnlyCart.Lines.Count() > 0)
-          {
-            <div class="row">
-              <div class="col-xs-12">
-                <div class="text-center">
-                  <h3>
-                    @Html.ActionLink("Proceed to checkout",
-                      "Index",     // method
-                      "Checkout",  // controller
-                      null,        // route arguments
-                      new { @class = "btn btn-default cart-submit-btn" } // html arguments
-                    )
+                <div class="col-xs-7">
+                  <h3 style="font-size: 20px; padding-top:20px;">
+                    <div class="cart-is-empty-msg" style="@cartIsEmptyTagDisplayMode"><span>Your cart is empty!</span></div>
+                    <span class="in-your-cart-msg" style="@yourCartTagDisplayMode">In Your Cart:</span>
                   </h3>
                 </div>
               </div>
             </div>
-          }
+          </div>
 
-        }
+          @if (Model.ReadOnlyCart.Lines.Count() == 0)
+          {
+            <hr style="margin-bottom:5px;" />
+            @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+            <hr style="margin-top:5px;" />
+          }
+          else
+          {
+
+            //cart has items
+            <div class="row content-header-row">
+              <div class="col-xs-6">
+                <div class="row">
+                  @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+                </div>
+              </div>
+
+              <div class="col-xs-6">
+                <div class="row">
+                  <div class="pull-right">
+                    @Html.ActionLink("Clear My Cart", "ClearCart", "Cart", new {
+                      @id = "clearMyCartBtn",
+                      @class = (Model.ReadOnlyCart.Lines.Count() > 0) ? "btn btn-default content-header-btn" : "btn btn-default content-header-btn disabled"
+                    })
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            foreach (var line in Model.ProductLines)
+            {
+              @Html.Partial("~/Views/Partials/Shopping/Cart/_CartLine.cshtml", line)
+            }
+
+            @Html.Partial("~/Views/Partials/Shopping/_SummaryRow.cshtml")
+
+            if (Model.ReadOnlyCart.Lines.Count() > 0)
+            {
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="text-center">
+                    <h3>
+                      @Html.ActionLink("Proceed to checkout",
+                        "Index",     // method
+                        "Checkout",  // controller
+                        null,        // route arguments
+                        new { @class = "btn btn-default cart-submit-btn" } // html arguments
+                      )
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            }
+
+          }
+        </div>
       </div>
     </div>
-  </div>
-}
-@* End of Html form *@
+  }
+  @* End of Html form *@
+
+</div>

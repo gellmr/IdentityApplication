@@ -3,74 +3,78 @@
   var cartEmpty = (Model.ReadOnlyCart.Lines.Count() == 0);
 }
 
-@using (Html.BeginForm("Create", "Order"))
-{
-  
-  <input type="hidden" id="page-location" name="page-location" value="checkout"> @* Used by some logic in store_and_cart.js *@
+<div class="container top-level-container">
 
-  <div class="row" style="padding-left: 20px; padding-right: 20px;">
-    <div class="col-xs-12">
+  @using (Html.BeginForm("Create", "Order"))
+  {
 
-      <div class="alert alert-warning" id="serverError" style="display:none;">
-        There was a server error.
-      </div>
+    <input type="hidden" id="page-location" name="page-location" value="checkout"> @* Used by some logic in store_and_cart.js *@
 
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="text-center">
-            <h3 class="content-heading">
-              <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
-              @if (cartEmpty)
-              {
-                <span>Cannot Checkout!</span>
-              }
-              else
-              {
-                <span>Checkout</span>
-              }
-            </h3>
-          </div>
-        </div>
-      </div>
+    <div class="row" style="padding-left: 20px; padding-right: 20px;">
+      <div class="col-xs-12">
 
-      @if (cartEmpty)
-      {
-        <div class="row">
-          <hr />
-          <h4 class="text-center">...Your cart is empty.</h4>
-          @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
-          <hr />
-        </div>
-      }
-      else
-      {
-        <div class="row">
-          <hr style="margin-bottom: 5px;"/>
-          @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
-          @Html.Partial("~/Views/Partials/Shopping/_BackToCart.cshtml")
-          <a href="/Checkout/Index" class="btn btn-default content-header-btn" disabled="disabled">Reviewing Your Order...</a>
-          <hr style="margin-top: 5px;"/>
+        <div class="alert alert-warning" id="serverError" style="display:none;">
+          There was a server error.
         </div>
 
-        <div style="height: 50px;"></div>
-
-        @Html.Partial("~/Views/Partials/Shopping/Checkout/_CheckoutSummary.cshtml", Model)
-
-        <div style="height: 30px;"></div>
-
-        @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressSelection.cshtml", Model);
-
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-sm-12">
             <div class="text-center">
-              <input type="submit" class="btn btn-default go-next-btn" value="Place Order" />
+              <h3 class="content-heading">
+                <img src="~/Content/images/cartLogo.png" alt="Cart Logo" />
+                @if (cartEmpty)
+                {
+                  <span>Cannot Checkout!</span>
+                }
+                else
+                {
+                  <span>Checkout</span>
+                }
+              </h3>
             </div>
           </div>
         </div>
 
-      }
-    </div>
-  </div>
-}
+        @if (cartEmpty)
+        {
+          <div class="row">
+            <hr />
+            <h4 class="text-center">...Your cart is empty.</h4>
+            @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+            <hr />
+          </div>
+        }
+        else
+        {
+          <div class="row">
+            <hr style="margin-bottom: 5px;" />
+            @Html.Partial("~/Views/Partials/Shopping/_BackToStore.cshtml")
+            @Html.Partial("~/Views/Partials/Shopping/_BackToCart.cshtml")
+            <a href="/Checkout/Index" id="btn-reviewing-your-order" class="btn btn-default content-header-btn" disabled="disabled">Reviewing Your Order...</a>
+            <hr style="margin-top: 5px;" />
+          </div>
 
-@* End of Html form *@
+          <div style="height: 50px;"></div>
+
+          @Html.Partial("~/Views/Partials/Shopping/Checkout/_CheckoutSummary.cshtml", Model)
+
+          <div style="height: 30px;"></div>
+
+          @Html.Partial("~/Views/Partials/Shopping/Checkout/_AddressSelection.cshtml", Model);
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="text-center">
+                <input type="submit" class="btn btn-default go-next-btn" value="Place Order" />
+              </div>
+            </div>
+          </div>
+
+        }
+      </div>
+    </div>
+  }
+
+  @* End of Html form *@
+
+</div>

@@ -8,3 +8,7 @@ form.authForm {
   margin-left: auto;
   margin-right: auto;
 }
+
+#manage-account dd{
+	margin-bottom: 15px;
+}

@@ -1,32 +1,39 @@
 ﻿@model gellmvc.Models.OrderIndexViewModel
 
-<div class="row orders-page">
-  <div class="col-xs-12">
+<div class="container top-level-container">
 
-    <div class="row">
-      <div class="col-xs-12">
-        <h3 class="content-heading">
-          My Orders
-        </h3>
+  <div class="row orders-page">
+    <div class="col-xs-12">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h3 class="content-heading">
+            My Orders
+          </h3>
+        </div>
       </div>
-    </div>
 
-    @if (Model.Orders.Count() == 0) {
-      <span>None at the moment.</span>
-    }else{
-      foreach(var order in Model.Orders)
+      @if (Model.Orders.Count() == 0)
       {
-        <a href="@Url.Action("Show", "Order", new { @OrderId = order.Id })" class="noUnderline">
-          <div class="well solidBackground mg-hover">
-            @Html.Partial("~/Views/Partials/Order/_Head.cshtml", order,
-              new ViewDataDictionary { { "showImages", true } }
-            )
-          </div>
-        </a>
+        <span>None at the moment.</span>
       }
-    }
+      else
+      {
+        foreach (var order in Model.Orders)
+        {
+          <a href="@Url.Action("Show", "Order", new { @OrderId = order.Id })" class="noUnderline">
+            <div class="well solidBackground mg-hover">
+              @Html.Partial("~/Views/Partials/Order/_Head.cshtml", order,
+                new ViewDataDictionary { { "showImages", true } }
+              )
+            </div>
+          </a>
+        }
+      }
+    </div>
   </div>
-</div>
 
-<br />
-<br />
+  <br />
+  <br />
+
+</div>

@@ -11,11 +11,11 @@
   <ul class="pagination">
     @if (Model.CurrentPage > 1)
     {
-      <li>
-        <a href="~/Store/Index">First</a>
+      <li class="hidden-xs">
+        <a href="~/Store/Index"><span class="glyphicon glyphicon-step-backward"></span></a>
       </li>
       <li>
-        <a href="~/Store/Index?page=@(Model.CurrentPage - 1)">Previous</a>
+        <a href="~/Store/Index?page=@(Model.CurrentPage - 1)"><span class="glyphicon glyphicon-chevron-left"></span></a>
       </li>
     }
 
@@ -29,10 +29,10 @@
     @if (Model.CurrentPage < Model.TotalPages)
     {
       <li>
-        <a href="~/Store/Index?page=@(Model.CurrentPage + 1)">Next</a>
+        <a href="~/Store/Index?page=@(Model.CurrentPage + 1)"><span class="glyphicon glyphicon-chevron-right"></span></a>
       </li>
-      <li>
-        <a href="~/Store/Index?page=@(Model.TotalPages)">Last</a>
+      <li class="hidden-xs">
+        <a href="~/Store/Index?page=@(Model.TotalPages)"><span class="glyphicon glyphicon-step-forward"></span></a>
       </li>
     }
   </ul>
