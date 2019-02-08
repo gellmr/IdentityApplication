@@ -29,11 +29,13 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
+          <li class="hidden-xs"><img src="~/Content/Images/siteLogo.png" style="height:38px; margin-top:4px;" /></li>
           <li>@Html.ActionLink("Shop for Gadgets", "Index", "Store")</li>
           <li>@Html.ActionLink("My Cart", "Index", "Cart")</li>
           @if (Request.IsAuthenticated)
           {
-            <li>@Html.ActionLink("My Orders", "Index", "Order")</li>}
+            <li>@Html.ActionLink("My Orders", "Index", "Order")</li>
+          }
         </ul>
         @Html.Partial("_LoginPartial")
       </div>
