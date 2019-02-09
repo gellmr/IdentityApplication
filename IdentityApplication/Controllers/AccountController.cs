@@ -369,11 +369,17 @@ namespace IdentityApplication.Controllers
         case SignInStatus.Success:
           TempData["flashSuccess"] = "Successfully logged in as " + loginInfo.Email;
           return RedirectToLocal(returnUrl);
+
         case SignInStatus.LockedOut:
           return View("Lockout");
+
         case SignInStatus.RequiresVerification:
           return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+
         case SignInStatus.Failure:
+          //TempData["flashSuccess"] = "There was a problem trying to use your external login provider. Maybe you entered the wrong details?";
+          //return RedirectToAction("Login");
+
         default:
           // If the user does not have an account, then prompt the user to create an account
           ViewBag.ReturnUrl = returnUrl;
