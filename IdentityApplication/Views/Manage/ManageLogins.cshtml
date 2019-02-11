@@ -24,7 +24,7 @@
     {
       if (Model.CurrentLogins.Count > 0)
       {
-        <h4>Registered Logins</h4>
+        <h4 style="margin-top:20px;">Registered Logins:</h4>
         <table class="table">
           <tbody>
             @foreach (var account in Model.CurrentLogins)
@@ -60,6 +60,8 @@
         {
           @Html.AntiForgeryToken()
           <div id="socialLoginList">
+            <div style="margin-top:20px; margin-bottom:5px;">If you would like to login using other providers, you can add them below.</div>
+            <hr />
             <p>
               @foreach (AuthenticationDescription p in Model.OtherLogins)
               {
