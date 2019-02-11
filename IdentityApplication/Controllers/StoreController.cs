@@ -76,5 +76,10 @@ namespace gellmvc.Controllers
       model = GetPageOfProducts(model, page);
       return View("Index", model);
     }
+
+    public ActionResult Loggedoff()
+    {
+      return View("Loggedoff");
+    }
   }
 }
