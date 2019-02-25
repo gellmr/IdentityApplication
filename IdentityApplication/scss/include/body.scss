@@ -25,6 +25,20 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
   max-width: 1000px;
 }
 
+.register-container {
+  @media screen and (min-width: 768px) {
+    width: 600px; // here we override the bootstrap default of 750px for .container
+  }
+
+  @media screen and (min-width: 992px) {
+    width: 600px; // here we override the bootstrap default of 970px for .container
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 600px; // here we override the bootstrap default of 1170px for .container
+  }
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
