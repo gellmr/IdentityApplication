@@ -141,9 +141,7 @@ namespace gellmvc.Controllers
         OrderDate = DateTime.Now,
         UserId = m_userId,
         OrderStatus = "Not Shipped Yet",
-        ShippingAddress = ship,
-        BillingAddress = bill,
-        ShippingAddressId = ship.Id,
+        ShippingAddressId = ship.Id, 
         BillingAddressId = bill.Id
       };
 

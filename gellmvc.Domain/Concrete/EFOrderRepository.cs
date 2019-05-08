@@ -31,8 +31,6 @@ namespace gellmvc.Domain.Concrete
       }
       // Prevent EF from creating new addresses
       ctx.Entry(order).State = EntityState.Added;
-      ctx.Entry(order.ShippingAddress).State = EntityState.Unchanged;
-      ctx.Entry(order.BillingAddress).State = EntityState.Unchanged;
       ctx.SaveChanges();
     }
 
