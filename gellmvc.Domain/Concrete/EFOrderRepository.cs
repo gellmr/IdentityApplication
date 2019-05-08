@@ -60,7 +60,7 @@ namespace gellmvc.Domain.Concrete
     private void AttachObjectsForOrder(ref Order order, IProductRepository productRepo)
     {
       // Look up the OrderedProducts
-      order.OrderedProducts = productRepo.GetOrderedProductsByOrderId(order.Id);
+      order.OrderedProducts = productRepo.GetOrderedProductsByOrderId(order.Id) as ICollection<OrderedProduct>;
 
       // The Order and Product of each OrderedProduct come through as null, so I need to look them up and attach to object.
       // Here I have used a for loop instead of foreach loop, because it was hitting a problem with lazy loading when we try to look up the product.
@@ -74,8 +74,8 @@ namespace gellmvc.Domain.Concrete
 
       // Look up the shipping and billing address objects.
       EFUserAddressRepository addressRepo = new EFUserAddressRepository();
-      order.ShippingAddress = addressRepo.GetAddressById(order.ShippingAddressId);
-      order.BillingAddress  = addressRepo.GetAddressById(order.BillingAddressId);
+      order.ShippingAddress = addressRepo.ro_GetAddressById(order.ShippingAddressId);
+      order.BillingAddress  = addressRepo.ro_GetAddressById(order.BillingAddressId);
     }
   }
 }

@@ -25,7 +25,7 @@ namespace gellmvc.Controllers
       }
       CartIndexViewModel vm = LookUpProducts(model);
       EFUserAddressRepository addressRepo = new EFUserAddressRepository();
-      IEnumerable<Domain.Entities.UserAddress> addresses = addressRepo.LookUpAddressesForUser(User.Identity.GetUserId());
+      IEnumerable<Domain.Entities.UserAddress> addresses = addressRepo.ro_LookUpAddressesForUser(User.Identity.GetUserId());
       List<Models.AddressRowViewModel> vmAddresses = new List<Models.AddressRowViewModel>();
       for (var i = 0; i < addresses.Count(); i++){
         vmAddresses.Add(new AddressRowViewModel {

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using gellmvc.Domain.Entities;
 
 namespace gellmvc.Domain.Abstract
 {
   public interface IUserAddressRepository
   {
-    IEnumerable<UserAddress> UserAddresses { get; }
+    IQueryable<UserAddress> ro_UserAddresses { get; }
     UserAddress CreateAddress(UserAddress address);
-    UserAddress GetAddressById(int? id);
+    UserAddress ro_GetAddressById(int? id);
   }
 }

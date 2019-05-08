@@ -13,14 +13,13 @@ namespace gellmvc.Domain.Entities
     public int Id { get; set; }           // PK
 
     [Required]
-    public int OrderId { get; set; }      // FK
-    public Order Order { get; set; }
+    public int OrderId { get; set; }         // FK
+    public virtual Order Order { get; set; } // Navigation
 
     [Required]
-    public int ProductId{ get; set; }     // FK
-    public Product Product { get; set; }
-
-
+    public int ProductId{ get; set; }            // FK
+    public virtual Product Product { get; set; } // Navigation
+    
     [Required]
     public int QtyToOrder { get; set; }
   }

@@ -25,13 +25,13 @@ namespace gellmvc.Domain.Entities
     [MaxLength(25)]
     public string OrderStatus { get; set; }
 
-    public int? ShippingAddressId { get; set; }         // FK
-    public UserAddress ShippingAddress { get; set; }    // Navigation
+    public int? ShippingAddressId { get; set; }                 // FK
+    public virtual UserAddress ShippingAddress { get; set; }    // Navigation
     
-    public int? BillingAddressId { get; set; }          // FK
-    public UserAddress BillingAddress { get; set; }     // Navigation
+    public int? BillingAddressId { get; set; }                  // FK
+    public virtual UserAddress BillingAddress { get; set; }     // Navigation
 
-    public IEnumerable<OrderedProduct> OrderedProducts { get; set; }
+    public virtual ICollection<OrderedProduct> OrderedProducts { get; set; }
 
     // The total number of items in the order. Eg 2 lines of 5 items == 10
     public int GetTotalItems(){

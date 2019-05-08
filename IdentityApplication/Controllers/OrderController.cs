@@ -98,8 +98,8 @@ namespace gellmvc.Controllers
       billvm.UserId = m_userId;
 
       // Try to look up from database.
-      Domain.Entities.UserAddress ship = m_userAddressRepo.GetAddressById(shipvm.Id as int?);
-      Domain.Entities.UserAddress bill = m_userAddressRepo.GetAddressById(billvm.Id as int?);
+      Domain.Entities.UserAddress ship = m_userAddressRepo.ro_GetAddressById(shipvm.Id as int?);
+      Domain.Entities.UserAddress bill = m_userAddressRepo.ro_GetAddressById(billvm.Id as int?);
 
       // Not in database.
       if (ship == null) { ship = ModelHelpers.DomainUserAddress(shipvm); }
@@ -108,8 +108,8 @@ namespace gellmvc.Controllers
       if (model.addressMode == CartIndexViewModel.AddressMode.PointOfSale)
       {
         // Check if we already have a matching address in the database that we can use.
-        Domain.Entities.UserAddress shipMatch = m_userAddressRepo.UserAddresses.Where(a => a.Line1.ToLower().Equals(ship.Line1.ToLower())).FirstOrDefault();
-        Domain.Entities.UserAddress billMatch = m_userAddressRepo.UserAddresses.Where(a => a.Line1.ToLower().Equals(bill.Line1.ToLower())).FirstOrDefault();
+        Domain.Entities.UserAddress shipMatch = m_userAddressRepo.ro_UserAddresses.Where(a => a.Line1.ToLower().Equals(ship.Line1.ToLower())).FirstOrDefault();
+        Domain.Entities.UserAddress billMatch = m_userAddressRepo.ro_UserAddresses.Where(a => a.Line1.ToLower().Equals(bill.Line1.ToLower())).FirstOrDefault();
         
         if (Domain.Entities.UserAddress.Matches(ship, shipMatch))
         {
