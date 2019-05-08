@@ -9,18 +9,7 @@ namespace gellmvc.Controllers
   public class CartController : CartBaseController
   {
     public CartController(IProductRepository repo) : base (repo) {}
-
-    //public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
-    //{
-    //  Product product = repository.Products.FirstOrDefault(p => p.ProductId == Id);
-
-    //  if (product != null)
-    //  {
-    //    cart.RemoveLine(product);
-    //  }
-    //  return RedirectToAction("Index", new { returnUrl });
-    //}
-
+    
     public RedirectToRouteResult ClearCart(Cart cart)
     {
       cart.Clear();
