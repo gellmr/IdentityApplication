@@ -48,17 +48,16 @@ namespace IdentityApplication
       // Uncomment the following lines to enable logging in with third party login providers
       // See the following tutorial.
       // http://dotnetdetail.com/asp-net-mvc-authentication-using-microsoft-account/
-      /*app.UseMicrosoftAccountAuthentication(
+      app.UseMicrosoftAccountAuthentication(
         clientId: System.Web.Configuration.WebConfigurationManager.AppSettings["MicrosoftClientId"],
         clientSecret: System.Web.Configuration.WebConfigurationManager.AppSettings["MicrosoftClientSecret"]
-      );*/
-
-      /*      
+      );
+     
       app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
       {
         ClientId = System.Web.Configuration.WebConfigurationManager.AppSettings["GoogClientID"],
         ClientSecret = System.Web.Configuration.WebConfigurationManager.AppSettings["GoogClientSecret"]
-      });*/
+      });
     }
   }
 }
