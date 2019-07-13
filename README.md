@@ -1,4 +1,4 @@
-# IdentityApplication
+# Mike Gell Demo
 
 This .NET MVC 5 project simulates an online store.
 
